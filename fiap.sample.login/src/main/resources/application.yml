@@ -1,0 +1,19 @@
+server:
+  port: 8181
+
+spring:
+  data:
+    mongodb:
+      host: localhost
+      port: 27017
+      database: fiapSampleLogin
+  main:
+    banner-mode: console
+
+logging:
+  config: classpath:logback.xml
+
+redis:
+  host: localhost
+  port: 6379
+  password:
