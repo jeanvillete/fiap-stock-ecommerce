@@ -55,7 +55,7 @@ export class ProductForm extends Component {
 
         saveNewProduct({userId, product})
             .then(productCreated => {
-                this.alert('success', `Producto ${productCreated.code} adicionado com sucesso.`)
+                this.alert('success', `Produto ${productCreated.code} adicionado com sucesso.`)
 
                 this.setState(
                     {
