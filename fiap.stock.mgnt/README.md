@@ -111,7 +111,35 @@ POST stock/users/5ef958b02994931e98c15366/catalogs
 
 #
 
-#### 2.2 - [use case: estoquista adiciona um produto: DONE]
+#### 2.2 - [use case: estoquista lista itens do catalogo: DONE]
+
+```$ curl localhost:8282/stock/users/5ef958b02994931e98c15366/catalogs -H 'Content-Type: application/json' ```
+
+```
+[request]
+GET /stock/users/5ef958b02994931e98c15366/catalogs
+
+[response]
+200 Ok
+[
+    {
+        "id": 123,
+        "description": "sample product description"
+    },
+    {
+        "id": 456,
+        "description": "another product description"
+    },
+    {
+        "id": 798,
+        "description": "one more product description"
+    }
+]
+```
+
+#
+
+#### 2.3 - [use case: estoquista adiciona um produto: DONE]
 - Um produto tem um relancionamento **muitos para um (N,1)** com o domínio de catálogo
 - O payload de um produto sendo adicionado deve conter os dados
     - ***price*** (campo com valor real, ou seja com ponto flutuante), campo mandatório
@@ -151,7 +179,7 @@ POST stock/users/5ef958b02994931e98c15366/catalogs/123/products
 
 #
 
-#### 2.3 - [use case: cliente adiciona um pedido: DONE]
+#### 2.4 - [use case: cliente adiciona um pedido: DONE]
 - A adição de um pedido vem de uma requisição que chega do módulo ***fiap.stock.portal***
 - O domínio de pedido tem um relacionamento **muitos para muitos (N,N)** com produtos
 - Como a requisição que vem do módulo ***fiap.stock.portal*** tem uma lista dos códigos dos produtos, devemos então buscar pelos produtos correspondentes na base local **MySQL** antes de efetivar a persistência do objeto deserializado
@@ -199,7 +227,7 @@ POST stock/users/5ef9589c2994931e98c15365/orders
 
 #
 
-#### 2.4 - [use case: estoquista lista pedidos: DONE]
+#### 2.5 - [use case: estoquista lista pedidos: DONE]
 - Estoquista requisita listagem de pedidos persistidos
 - A informação ***loginId*** deverá ser recebida via path variable, e refere-se a identificação do estoquista (UserType stock), o que quer dizer que o valor de um login válido efetuado via módulo ***fiap.sample.login*** deve ter sido obtido
     - [validar] deve ser verificado se o ***loginId*** é de fato válido para o tipo (UserType) 'stock'
@@ -231,7 +259,7 @@ GET stock/users/5ef958b02994931e98c15366/orders
 
 #
 
-#### 2.5 - [use case: estoquista confirma um pedido: DONE]
+#### 2.6 - [use case: estoquista confirma um pedido: DONE]
 - O estoquista seleciona um item da lista de pedidos, e **confirma/aprova** a presença deste no estoque, indicando que a compra/pedido deve continuar seu fluxo
     - [validar] o estado (status) do pedido deve estar no valor ***"WAITING_FOR_ANSWER"***, de maneira contrária, devolver mensagem informando do problema com status ***412 Precondition Failed***
     - [validar] os produtos e suas quantidades presentes no pedido devem continuar integros na base de dados local **MySQL**, logo é necessário confirmar que todos os produtos de fato tem tais quantidades disponíveis
@@ -264,7 +292,7 @@ PUT stock/users/5ef958b02994931e98c15366/orders/ORD-4569877/approve
 
 #
 
-#### 2.6 - [use case: estoquista rejeita um pedido: DONE]
+#### 2.7 - [use case: estoquista rejeita um pedido: DONE]
 - O estoquista seleciona um item da lista de pedidos, e **rejeita** a presença deste no estoque, indicando que a compra/pedido deve ser cancelada
     - [validar] o estado (status) do pedido deve estar no valor ***"WAITING_FOR_ANSWER"***, de maneira contrária, devolver mensagem informando do problema com status ***412 Precondition Failed***
 - A informação ***loginId*** deverá ser recebida via path variable, e refere-se a identificação do estoquista (UserType stock), o que quer dizer que o valor de um login válido efetuado via módulo ***fiap.sample.login*** deve ter sido obtido
