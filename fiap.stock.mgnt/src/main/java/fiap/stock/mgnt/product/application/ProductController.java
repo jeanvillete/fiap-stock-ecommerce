@@ -6,8 +6,10 @@ import fiap.stock.mgnt.product.domain.usecase.ProductUseCase;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
-@RequestMapping("stock/users/{loginId}/catalogs/{catalogId}/products")
+@RequestMapping("stock/users/{loginId}")
 public class ProductController {
 
     private final ProductUseCase productUseCase;
@@ -16,7 +18,7 @@ public class ProductController {
         this.productUseCase = productUseCase;
     }
 
-    @PostMapping
+    @PostMapping("catalogs/{catalogId}/products")
     @ResponseStatus(HttpStatus.CREATED)
     public ProductUseCase.ProductPayload addProductToTheCatalog(
             @PathVariable("loginId") String loginId,
@@ -27,6 +29,11 @@ public class ProductController {
         productPayload.setCatalogId(catalogId);
 
         return productUseCase.addProductToTheCatalog(loginId, productPayload);
+    }
+
+    @GetMapping("products")
+    public List<ProductUseCase.ProductPayload> findAllProducts(@PathVariable("loginId") String loginId) throws InvalidSuppliedDataException {
+        return productUseCase.findAllProducts(loginId);
     }
 
 }

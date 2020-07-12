@@ -129,4 +129,9 @@ class ProductServiceImpl implements ProductService {
                 .orElseThrow(() -> new ProductNotFoundException("No product found for the provided code [" + code + "]"));
     }
 
+    @Override
+    public List<Product> findAll() {
+        return productRepository.findAll();
+    }
+
 }

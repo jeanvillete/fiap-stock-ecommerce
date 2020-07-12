@@ -1,19 +1,19 @@
 import axios from 'axios'
 
-const STOCK_BASE_RESOURCE = `/api/stock/users`
+const url = userId => `/api/stock/users/${userId}/catalogs`
 
-export const fetchCatalogItems = async (login) => {
+export const fetchCatalogItems = async (userId) => {
     return axios
-        .get(`${STOCK_BASE_RESOURCE}/${login}/catalogs`)
+        .get(url(userId))
         .then(response => response.data)
 }
 
-export const postNewCatalogItem = async (login, description) => {
+export const postNewCatalogItem = async (userId, description) => {
     const catalogItem = {
         description: description
     }
 
     return axios
-        .post(`${STOCK_BASE_RESOURCE}/${login}/catalogs`, catalogItem)
+        .post(url(userId), catalogItem)
         .then(response => response.data)
 }

@@ -1,9 +1,12 @@
 import React from 'react'
+import ProductsTable from './ProductsTable'
+import ProductForm from './ProductForm'
 
 const products = props => {
     return (
         <div>
-            Produtos
+            <ProductForm />
+            <ProductsTable />
         </div>
     )
 }

@@ -29,4 +29,6 @@ public interface ProductService {
 
     Product findByCode(String code) throws ProductNotFoundException;
 
+    List<Product> findAll();
+
 }

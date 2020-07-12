@@ -18,24 +18,15 @@ export class Login extends Component {
         }
     }
 
-    successAlert = message => {
-        this.setState(
-            {
-                ...this.state,
-                alert: {
-                    type: 'success',
-                    message: message
-                }
-            }
-        )
-    }
+    alert = (type, message) => {
+        type = type || null
+        message = message || null
 
-    errorAlert = message => {
         this.setState(
             {
                 ...this.state,
                 alert: {
-                    type: 'warning',
+                    type: type,
                     message: message
                 }
             }
@@ -48,8 +39,8 @@ export class Login extends Component {
         const {doLogin, login} = this.props
 
         doLogin(login)
-            .then(userId => this.successAlert(`User ${login} logged successfully.`))
-            .catch(({response}) => this.errorAlert(response.data))
+            .then(() => this.alert('success', `Usuário ${login} logado com sucesso.`))
+            .catch(({response}) => this.alert('warning', response.data))
     }
 
     loginChangeHandler = event => {
@@ -58,27 +49,15 @@ export class Login extends Component {
 
         setLogin(login)
 
-        this.clearAlert()
-    }
-
-    clearAlert = () => {
-        this.setState(
-            {
-                ...this.state,
-                alert: {
-                    type: null,
-                    message: null
-                }
-            }
-        )
+        this.alert()
     }
 
     createUserHandler = event => {
         const {saveNewUser, login} = this.props
 
         saveNewUser(login)
-            .then(userId => this.successAlert(`User ${login} created successfully.`))
-            .catch(({response}) => this.errorAlert(response.data))
+            .then(() => this.alert('success', `Usuário ${login} criado com sucesso.`))
+            .catch(({response}) => this.alert('warning', response.data))
     }
 
     render() {

@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import {connect} from 'react-redux'
-import PropTypes from 'prop-types'
 import Alert from '../alert/Alert'
 
 export class CatalogForm extends Component {
@@ -20,24 +19,15 @@ export class CatalogForm extends Component {
     componentDidMount() {
     }
 
-    successAlert = message => {
-        this.setState(
-            {
-                ...this.state,
-                alert: {
-                    type: 'success',
-                    message: message
-                }
-            }
-        )
-    }
+    alert = (type, message) => {
+        type = type || null
+        message = message || null
 
-    errorAlert = message => {
         this.setState(
             {
                 ...this.state,
                 alert: {
-                    type: 'warning',
+                    type: type,
                     message: message
                 }
             }
@@ -52,8 +42,8 @@ export class CatalogForm extends Component {
         const {description} = this.state
 
         saveNewCatalogItem({userId, description})
-            .then(userId => this.successAlert(`Item ${description} adicionado com sucesso.`))
-            .catch(({response}) => this.errorAlert(response.data))
+            .then(userId => this.alert('success', `Item ${description} adicionado com sucesso.`))
+            .catch(({response}) => this.alert('warning', response.data))
 
         this.setState(
             {

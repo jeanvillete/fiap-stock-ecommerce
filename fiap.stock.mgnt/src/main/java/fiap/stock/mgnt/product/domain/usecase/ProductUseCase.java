@@ -13,6 +13,8 @@ import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 public class ProductUseCase {
@@ -25,9 +27,17 @@ public class ProductUseCase {
         @JsonProperty("catalog_id")
         Integer catalogId;
 
+        @JsonProperty
         String code;
+
+        @JsonProperty
         BigDecimal price;
+
+        @JsonProperty
         Integer quantity;
+
+        @JsonProperty
+        String description;
 
         public ProductPayload() {
         }
@@ -40,44 +50,17 @@ public class ProductUseCase {
             this.quantity = quantity;
         }
 
-        public String getCode() {
-            return code;
-        }
-
-        public void setCode(String code) {
+        public ProductPayload(LocalDateTime entryTime, Integer catalogId, String description, String code, BigDecimal price, Integer quantity) {
+            this.entryTime = entryTime;
+            this.catalogId = catalogId;
+            this.description = description;
             this.code = code;
-        }
-
-        public Integer getCatalogId() {
-            return catalogId;
+            this.price = price;
+            this.quantity = quantity;
         }
 
         public void setCatalogId(Integer catalogId) {
             this.catalogId = catalogId;
-        }
-
-        public BigDecimal getPrice() {
-            return price;
-        }
-
-        public void setPrice(BigDecimal price) {
-            this.price = price;
-        }
-
-        public Integer getQuantity() {
-            return quantity;
-        }
-
-        public void setQuantity(Integer quantity) {
-            this.quantity = quantity;
-        }
-
-        public LocalDateTime getEntryTime() {
-            return entryTime;
-        }
-
-        public void setEntryTime(LocalDateTime entryTime) {
-            this.entryTime = entryTime;
         }
     }
 
@@ -93,10 +76,10 @@ public class ProductUseCase {
 
     public ProductPayload addProductToTheCatalog(String loginId, ProductPayload productPayload) throws InvalidSuppliedDataException, CatalogNotFoundException {
         productService.validLoginId(loginId);
-        productService.validPrice(productPayload.getPrice());
-        productService.validQuantity(productPayload.getQuantity());
+        productService.validPrice(productPayload.price);
+        productService.validQuantity(productPayload.quantity);
 
-        Catalog catalog = catalogService.findById(productPayload.getCatalogId());
+        Catalog catalog = catalogService.findById(productPayload.catalogId);
 
         String productCode = productService.figureOutNewProductCode();
 
@@ -121,6 +104,25 @@ public class ProductUseCase {
                 product.getPrice(),
                 product.getQuantity()
         );
+    }
+
+    public List<ProductPayload> findAllProducts(String loginId) throws InvalidSuppliedDataException {
+        productService.validLoginId(loginId);
+
+        List<Product> productList = productService.findAll();
+
+        return productList.stream()
+                .map(product ->
+                        new ProductPayload(
+                                product.getEntryTime(),
+                                product.getCatalog().getId(),
+                                product.getCatalog().getDescription(),
+                                product.getCode(),
+                                product.getPrice(),
+                                product.getQuantity()
+                        )
+                )
+                .collect(Collectors.toList());
     }
 
 }

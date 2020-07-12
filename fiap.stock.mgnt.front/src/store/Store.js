@@ -1,6 +1,7 @@
 import { init } from '@rematch/core'
 import loginModel from '../login/LoginModel'
 import catalogModel from '../catalogs/CatalogModel'
+import productModel from '../products/ProductModel'
 
 export const initStore = middlewares => {
     return init({
@@ -9,7 +10,8 @@ export const initStore = middlewares => {
         },
         models: {
             loginModel,
-            catalogModel
+            catalogModel,
+            productModel
         }
     })
 }
