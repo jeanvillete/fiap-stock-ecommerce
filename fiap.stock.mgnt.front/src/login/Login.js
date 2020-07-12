@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import {connect} from 'react-redux'
-import PropTypes from 'prop-types'
 import Alert from '../alert/Alert'
 
 import '../signin.css';
@@ -100,15 +99,6 @@ const mapDispatchToProps = dispatchers => {
         doLogin: loginModel.doLogin,
         saveNewUser: loginModel.saveNewUser,
     }
-}
-
-Login.propTypes = {
-    login: PropTypes.string,
-    type: PropTypes.string,
-    userId: PropTypes.string,
-    setLogin: PropTypes.func,
-    doLogin: PropTypes.func,
-    saveNewUser: PropTypes.func
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login)

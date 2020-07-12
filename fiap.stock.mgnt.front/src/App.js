@@ -13,7 +13,7 @@ function App( { location } ) {
       <Menu />
 
       <Switch location={location}>
-        <Route exact path='/login' component={Login} />
+        <Route exact path='/' component={Login} />
         <Route path='/orders' component={Orders} />
         <Route path='/products' component={Products} />
         <Route path='/catalogs' component={Catalogs} />

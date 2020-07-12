@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import {NavLink} from 'react-router-dom'
-import PropTypes from 'prop-types'
 
 export class Menu extends Component {
 
@@ -32,9 +31,6 @@ export class Menu extends Component {
                     <NavLink to='/orders' className="nav-link" >
                         Pedidos
                     </NavLink>
-                    <NavLink to='/login' className="nav-link" >
-                        Login
-                    </NavLink>
                 </nav>
             </div>
         )
@@ -54,12 +50,6 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatchers => {
     return {
     }
-}
-
-Menu.propTypes = {
-    login: PropTypes.string,
-    type: PropTypes.string,
-    userId: PropTypes.string
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Menu)

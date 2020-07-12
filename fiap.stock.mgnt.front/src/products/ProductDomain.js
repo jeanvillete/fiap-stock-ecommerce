@@ -1,10 +1,8 @@
 import axios from 'axios'
 
-const url = userId => `/api/stock/users/${userId}/products`
-
 export const fetchAllProducts = async (userId) => {
     return axios
-        .get(url(userId))
+        .get(`/api/stock/users/${userId}/products`)
         .then(response => response.data)
 }
 

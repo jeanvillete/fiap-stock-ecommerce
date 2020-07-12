@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import {connect} from 'react-redux'
-import PropTypes from 'prop-types'
 
 export class CatalogsTable extends Component {
 
