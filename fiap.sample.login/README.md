@@ -50,7 +50,7 @@ Abaixo segue a lista de casos de uso e exemplos de requisições e respostas;
 
 ```
 [request]
-PUT /login
+POST /login
 {
     "login": "abcd",
     "type": "stock"

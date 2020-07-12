@@ -1,0 +1,135 @@
+import React, { Component } from 'react'
+import {connect} from 'react-redux'
+import PropTypes from 'prop-types'
+import Alert from '../alert/Alert'
+
+import '../signin.css';
+
+export class Login extends Component {
+
+    constructor(props) {
+        super(props)
+
+        this.state = {
+            alert: {
+                type: null,
+                message: null
+            }
+        }
+    }
+
+    successAlert = message => {
+        this.setState(
+            {
+                ...this.state,
+                alert: {
+                    type: 'success',
+                    message: message
+                }
+            }
+        )
+    }
+
+    errorAlert = message => {
+        this.setState(
+            {
+                ...this.state,
+                alert: {
+                    type: 'warning',
+                    message: message
+                }
+            }
+        )
+    }
+
+    loginFormSubmitHandler = event => {
+        event.preventDefault()
+
+        const {doLogin, login} = this.props
+
+        doLogin(login)
+            .then(userId => this.successAlert(`User ${login} logged successfully.`))
+            .catch(({response}) => this.errorAlert(response.data))
+    }
+
+    loginChangeHandler = event => {
+        const login = event.target.value;
+        const {setLogin} = this.props
+
+        setLogin(login)
+
+        this.clearAlert()
+    }
+
+    clearAlert = () => {
+        this.setState(
+            {
+                ...this.state,
+                alert: {
+                    type: null,
+                    message: null
+                }
+            }
+        )
+    }
+
+    createUserHandler = event => {
+        const {saveNewUser, login} = this.props
+
+        saveNewUser(login)
+            .then(userId => this.successAlert(`User ${login} created successfully.`))
+            .catch(({response}) => this.errorAlert(response.data))
+    }
+
+    render() {
+        const {alert} = this.state
+
+        return (
+            <form className="form-signin" onSubmit={this.loginFormSubmitHandler} >
+                <h1 className="h3 mb-3 font-weight-normal">Please sign in</h1>
+    
+                <input id="inputEmail" className="form-control" placeholder="User Login" required autoFocus onChange={this.loginChangeHandler} />
+
+                <div className="checkbox mb-3"/>
+
+                <div className="checkbox mb-3">
+                    <button className="btn btn-lg btn-primary btn-block" type="submit">Login</button>
+                    <button className="btn btn-lg btn-secondary btn-block" type="button" onClick={this.createUserHandler}>Create</button>
+                </div>
+                
+                <Alert type={alert.type} message={alert.message}/>
+            </form>
+        )
+    }
+}
+
+const mapStateToProps = state => {
+    const {loginModel} = state
+
+    return {
+        login: loginModel.login,
+        type: loginModel.type,
+        userId: loginModel.userId
+    }
+}
+
+const mapDispatchToProps = dispatchers => {
+    const {loginModel} = dispatchers
+
+    return {
+        setLogin: loginModel.setLogin,
+        doLogin: loginModel.doLogin,
+        saveNewUser: loginModel.saveNewUser,
+    }
+}
+
+Login.propTypes = {
+    login: PropTypes.string,
+    type: PropTypes.string,
+    userId: PropTypes.string,
+    setLogin: PropTypes.func,
+    doLogin: PropTypes.func,
+    saveNewUser: PropTypes.func
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login)
