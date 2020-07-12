@@ -14,7 +14,11 @@ const addressModel = {
     effects: {
         async findAll(userId) {
             return fetchAllAddresses(userId)
-                .then(this.setAddresses)
+                .then(addresses => {
+                    this.setAddresses(addresses)
+
+                    return addresses
+                })
         },
         async persistNewAddress({userId, address}) {
             return postNewAddress(userId, address)

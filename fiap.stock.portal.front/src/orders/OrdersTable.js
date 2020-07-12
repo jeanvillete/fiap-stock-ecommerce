@@ -17,24 +17,6 @@ export class OrdersTable extends Component {
         findAll(userId)
     }
 
-    approveOrder = orderCode => {
-        const {userId} = this.props
-        const {approve} = this.props
-
-        if (window.confirm(`Confrma aprovação da ordem ${orderCode}? Ação não pode ser desfeita.`)) {
-            approve({userId, orderCode})
-        }
-    }
-
-    rejectOrder = orderCode => {
-        const {userId} = this.props
-        const {reject} = this.props
-
-        if (window.confirm(`Confrma rejeição da ordem ${orderCode}? Ação não pode ser desfeita.`)) {
-            reject({userId, orderCode})
-        }
-    }
-
     render() {
         const {orders} = this.props
 
@@ -51,8 +33,8 @@ export class OrdersTable extends Component {
                                         <div>
                                             { orderItem.code }
                                         </div>
-                                        <div className={`badge badge-${orderItem.orderStatus === 'APPROVED' ? 'primary' : orderItem.orderStatus === 'REJECTED' ? 'warning' : ''}`}>
-                                            { orderItem.orderStatus }
+                                        <div className={`badge badge-${orderItem.status === 'APPROVED' ? 'primary' : orderItem.status === 'REJECTED' ? 'warning' : ''}`}>
+                                            { orderItem.status }
                                         </div>
                                     </strong>
                                     <strong className="text-gray-dark">
@@ -66,12 +48,6 @@ export class OrdersTable extends Component {
                                                 )
                                         }
                                     </strong>
-                                    
-                                    <span className="d-block pt-1">
-                                        <button className="btn btn-primary mr-1" type="button" disabled={orderItem.orderStatus !== 'WAITING_FOR_ANSWER'} onClick={() => this.approveOrder(orderItem.code)}>Aprovar</button>
-                                        <button className="btn btn-warning" type="button" disabled={orderItem.orderStatus !== 'WAITING_FOR_ANSWER'} onClick={() => this.rejectOrder(orderItem.code)}>Rejeitar</button>
-                                    </span>
-
                                 </div>
                             </div>
                         </div>
@@ -95,9 +71,7 @@ export default connect(
         const {orderModel} = dispatchers
 
         return {
-            findAll: orderModel.findAll,
-            approve: orderModel.approve,
-            reject: orderModel.reject
+            findAll: orderModel.findAll
         }
     }
 )(OrdersTable)

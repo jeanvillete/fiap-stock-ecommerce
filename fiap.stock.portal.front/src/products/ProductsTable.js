@@ -17,6 +17,17 @@ export class ProductsTable extends Component {
         findAll(userId)
     }
 
+    addProductToCart = productCode => {
+        const {addProductToCart} = this.props
+
+        addProductToCart(
+            {
+                code: productCode,
+                quantity: 1
+            }
+        )
+    }
+
     render() {
         const {products} = this.props
 
@@ -40,7 +51,7 @@ export class ProductsTable extends Component {
                                     </strong>
                                     
                                     <span className="d-block pt-1">
-                                        <button className="btn btn-sm btn-link" type="button" >Adicionar ao carrinho</button>
+                                        <button className="btn btn-sm btn-link" type="button" onClick={() => this.addProductToCart(productItem.code)}>Adicionar ao carrinho</button>
                                     </span>
 
                                 </div>
@@ -55,18 +66,20 @@ export class ProductsTable extends Component {
 
 export default connect(
     state => {
-        const {loginModel, productModel} = state
+        const {loginModel, productModel, orderModel} = state
 
         return {
             userId: loginModel.userId,
-            products: productModel.products
+            products: productModel.products,
+            cart: orderModel.cart
         }
     },
     dispatchers => {
-        const {productModel} = dispatchers
+        const {productModel, orderModel} = dispatchers
 
         return {
-            findAll: productModel.findAll
+            findAll: productModel.findAll,
+            addProductToCart: orderModel.addProductToCart
         }
     }
 )(ProductsTable)
