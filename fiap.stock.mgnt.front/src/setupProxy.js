@@ -17,12 +17,12 @@ module.exports = function (app) {
     )
 
     app.use(
-        '/api/stock/mgnt',
+        '/api/stock',
         createProxyMiddleware(
             {
                 target: 'http://localhost:8282',
                 pathRewrite: {
-                    '^/api/stock/mgnt': '/stock/mgnt'
+                    '^/api/stock': '/stock'
                 },
                 changeOrigin: true,
                 secure: false

@@ -1,17 +1,25 @@
-import React from 'react';
-import logo from './logo.svg';
+import React from 'react'
 import './App.css';
 import { Route, Switch, withRouter } from 'react-router-dom'
-import Login from './login/Login';
+import Login from './login/Login'
+import Menu from './menu/Menu'
+import Orders from './orders/Orders'
+import Products from './products/Products'
+import Catalogs from './catalogs/Catalogs'
 
-function App() {
+function App( { location } ) {
   return (
-    <Switch>
-      <Route path='/'>
-        <Login />
-      </Route>
-    </Switch>
+    <main role="main" className="container">
+      <Menu />
+
+      <Switch location={location}>
+        <Route exact path='/login' component={Login} />
+        <Route path='/orders' component={Orders} />
+        <Route path='/products' component={Products} />
+        <Route path='/catalogs' component={Catalogs} />
+      </Switch>
+    </main>
   );
 }
 
-export default App;
+export default withRouter(App);

@@ -5,6 +5,8 @@ import fiap.stock.mgnt.common.exception.InvalidSuppliedDataException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("stock/users/{loginId}/catalogs")
 public class CatalogController {
@@ -19,6 +21,11 @@ public class CatalogController {
     @ResponseStatus(HttpStatus.CREATED)
     public CatalogUseCase.CatalogPayload insertNewCatalogItem(@PathVariable("loginId") String loginId, @RequestBody CatalogUseCase.CatalogPayload catalogPayload) throws InvalidSuppliedDataException {
         return catalogUseCase.insertNewCatalogItem(loginId, catalogPayload);
+    }
+
+    @GetMapping
+    public List<CatalogUseCase.CatalogPayload> catalogList(@PathVariable("loginId") String loginId) throws InvalidSuppliedDataException {
+        return catalogUseCase.catalogList(loginId);
     }
 
 }

@@ -5,6 +5,9 @@ import fiap.stock.mgnt.catalog.domain.CatalogService;
 import fiap.stock.mgnt.common.exception.InvalidSuppliedDataException;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Component
 public class CatalogUseCase {
 
@@ -59,6 +62,21 @@ public class CatalogUseCase {
                 catalog.getId(),
                 catalog.getDescription()
         );
+    }
+
+    public List<CatalogPayload> catalogList(String loginId) throws InvalidSuppliedDataException {
+        this.catalogService.validLoginId(loginId);
+
+        List<Catalog> catalogList = this.catalogService.findAll();
+
+        return catalogList.stream()
+                .map(catalog ->
+                        new CatalogPayload(
+                                catalog.getId(),
+                                catalog.getDescription()
+                        )
+                )
+                .collect(Collectors.toList());
     }
 
 }

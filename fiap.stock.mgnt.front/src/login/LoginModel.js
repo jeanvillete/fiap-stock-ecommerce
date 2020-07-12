@@ -13,7 +13,6 @@ const loginModel = {
             return {...currentState, login}
         },
         setUserId(currentState, userId) {
-            console.log("setUserId;", userId)
             return {...currentState, userId}
         }
     },

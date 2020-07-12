@@ -4,6 +4,7 @@ import fiap.stock.mgnt.catalog.domain.exception.CatalogNotFoundException;
 import fiap.stock.mgnt.common.exception.InvalidSuppliedDataException;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Objects;
 
 @Service
@@ -60,6 +61,11 @@ class CatalogServiceImpl implements CatalogService {
     public Catalog findById(Integer catalogId) throws CatalogNotFoundException {
         return catalogRepository.findById(catalogId)
                 .orElseThrow(() -> new CatalogNotFoundException("No catalog could be found for the provided id; " + catalogId));
+    }
+
+    @Override
+    public List<Catalog> findAll() {
+        return catalogRepository.findAll();
     }
 
 }
