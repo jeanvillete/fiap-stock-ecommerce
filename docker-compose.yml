@@ -24,7 +24,7 @@ services:
       - "MYSQL_ROOT_PASSWORD=fiap-persistencepwd"
 
   fiap_sample_login:
-    image: 'jvillete/fiap.sample.login'
+    image: jvillete/fiap.sample.login
     container_name: 'fiap.sample.login'
     network_mode: "host"
     ports:
@@ -35,7 +35,7 @@ services:
       - mongodb
 
   fiap_stock_mgnt:
-    image: 'jvillete/fiap.stock.mgnt'
+    image: jvillete/fiap.stock.mgnt
     container_name: 'fiap.stock.mgnt'
     network_mode: "host"
     ports:
@@ -45,7 +45,7 @@ services:
       - mysql
 
   fiap_stock_portal:
-    image: 'jvillete/fiap.stock.portal'
+    image: jvillete/fiap.stock.portal
     container_name: 'fiap.stock.portal'
     network_mode: "host"
     ports:
@@ -56,14 +56,14 @@ services:
       - mongodb
 
   fiap_stock_portal_front:
-    image: 'jvillete/fiap.stock.portal.front'
+    image: jvillete/fiap.stock.portal.front
     container_name: 'fiap.stock.portal.front'
     network_mode: "host"
     ports:
       - 3232:3232
 
   fiap_stock_mgnt_front:
-    image: 'jvillete/fiap.stock.mgnt.front'
+    image: jvillete/fiap.stock.mgnt.front
     container_name: 'fiap.stock.mgnt.front'
     network_mode: "host"
     ports:
