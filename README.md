@@ -74,7 +74,7 @@ Após o clone local, e toda alteração que for necessária, rode o script build
 
 ---
 
-# 4 - explicação/fluxo
+# 4 - Play With Docker; explicação/fluxo
 
 - Clone do projeto  
 - Subindo módulos via docker-compose  
