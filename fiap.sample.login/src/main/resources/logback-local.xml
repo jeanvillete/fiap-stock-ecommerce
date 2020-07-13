@@ -6,11 +6,11 @@
         </encoder>
     </appender>
 
-    <logger name="fiap.stock.mgnt" additivity="false" level="ERROR">
+    <logger name="fiap.sample.login" additivity="false" level="debug">
         <appender-ref ref="ConsoleAppender" />
     </logger>
 
-    <root level="ERROR">
+    <root level="debug">
         <appender-ref ref="ConsoleAppender" />
     </root>
 </configuration>

@@ -4,7 +4,7 @@ server:
 spring:
   data:
     mongodb:
-      host: localhost
+      host: 0.0.0.0
       port: 27017
       database: fiapStockPortal
   main:
@@ -15,9 +15,9 @@ logging:
 
 stock:
   mgnt:
-    host: http://localhost:8282/
+    host: http://0.0.0.0:8282/
 
 redis:
-  host: localhost
+  host: 0.0.0.0
   port: 6379
   password:

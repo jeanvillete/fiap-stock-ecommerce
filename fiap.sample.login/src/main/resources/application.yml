@@ -4,7 +4,7 @@ server:
 spring:
   data:
     mongodb:
-      host: localhost
+      host: 0.0.0.0
       port: 27017
       database: fiapSampleLogin
   main:
@@ -14,6 +14,6 @@ logging:
   config: classpath:logback.xml
 
 redis:
-  host: localhost
+  host: 0.0.0.0
   port: 6379
   password:
