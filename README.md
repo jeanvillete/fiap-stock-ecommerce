@@ -76,8 +76,8 @@ Após o clone local, e toda alteração que for necessária, rode o script build
 
 # 4 - explicação/fluxo
 
-clone do projeto
-subindo módulos via docker-compose
+- Clone do projeto  
+- Subindo módulos via docker-compose  
 
 ![](docs/print-1.png)
 
@@ -89,8 +89,8 @@ subindo módulos via docker-compose
 
 #
 
-expondo porta e acessndo o portal
-visualizando que não há produtos
+- Expondo porta e acessndo o portal
+- Visualizando que não há produtos
 
 ![](docs/print-5.png)
 
@@ -102,11 +102,11 @@ visualizando que não há produtos
 
 #
  
-expondo portal
-acessando o estoque
-cadastrando item no catalogo
-cadastrando produtos
-visualizando que não há pedidos em aberto
+- Expondo portal
+- Acessando o estoque
+- Cadastrando item no catalogo
+- Cadastrando produtos
+- Visualizando que não há pedidos em aberto
 
 ![](docs/print-9.png)
 
@@ -120,10 +120,10 @@ visualizando que não há pedidos em aberto
 
 #
  
-volta no portal
-cadastra um endereço
-visualiza produtos cadastrados e adiciona produtos ao carrinho
-faz pedido
+- Volta no portal
+- Cadastra um endereço
+- Visualiza produtos cadastrados e adiciona produtos ao carrinho
+- Faz pedido
   
 ![](docs/print-15.png)
 
@@ -133,15 +133,15 @@ faz pedido
 
 #
  
-volta no estoque
-visualiza pedidos efetuados
-estoquista aprova e rejeita pedidos
+- Volta no estoque
+- Visualiza pedidos efetuados
+- Estoquista aprova e rejeita pedidos
 
 ![](docs/print-17.png)
 
 #
 
-no portal
-o cliente vê o status dos pedidos respondidos
+- No portal
+- O cliente vê o status dos pedidos respondidos
 
 ![](docs/print-18.png)
