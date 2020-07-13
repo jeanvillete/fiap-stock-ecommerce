@@ -1,0 +1,56 @@
+version: '3'
+services:
+  redis:
+    image: redis
+    container_name: redis
+    network_mode: "host"
+    ports:
+      - 6379:6379
+
+  mongodb:
+    image: mongo
+    container_name: mongodb
+    network_mode: "host"
+    ports:
+      - 27017:27017
+
+  mysql:
+    image: mysql
+    container_name: mysql
+    network_mode: "host"
+    ports:
+      - 3306:3306
+    environment:
+      - "MYSQL_ROOT_PASSWORD=fiap-persistencepwd"
+
+  fiap_sample_login:
+    image: fiap.sample.login
+    container_name: 'fiap.sample.login'
+    network_mode: "host"
+    ports:
+      - 8181:8181
+    restart: on-failure
+    depends_on:
+      - redis
+      - mongodb
+
+  fiap_stock_mgnt:
+    image: fiap.stock.mgnt
+    container_name: 'fiap.stock.mgnt'
+    network_mode: "host"
+    ports:
+      - 8282:8282
+    restart: on-failure
+    depends_on:
+      - mysql
+
+  fiap_stock_portal:
+    image: fiap.stock.portal
+    container_name: 'fiap.stock.portal'
+    network_mode: "host"
+    ports:
+      - 8383:8383
+    restart: on-failure
+    depends_on:
+      - redis
+      - mongodb

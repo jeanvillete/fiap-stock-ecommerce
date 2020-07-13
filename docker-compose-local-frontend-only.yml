@@ -1,0 +1,15 @@
+version: '3'
+services:
+  fiap_stock_portal_front:
+    image: fiap.stock.portal.front
+    container_name: 'fiap.stock.portal.front'
+    network_mode: "host"
+    ports:
+      - 3232:3232
+
+  fiap_stock_mgnt_front:
+    image: fiap.stock.mgnt.front
+    container_name: 'fiap.stock.mgnt.front'
+    network_mode: "host"
+    ports:
+      - 3131:3131
