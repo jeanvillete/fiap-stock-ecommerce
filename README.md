@@ -53,6 +53,6 @@ Uma vez com todos os módulos no ar, o script ``` test-script.sh ```, na raiz do
 
 ---
 
-# 3 - diagrama de componentes
+# 3 - diagrama de componentes e caso de uso
 
-![](docs/fiap.stock.components.png)
+![](docs/fiap.stock.ecommerce.png)
