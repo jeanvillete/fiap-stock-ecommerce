@@ -70,3 +70,78 @@ Após o clone local, e toda alteração que for necessária, rode o script build
 # 3 - diagrama de componentes e caso de uso
 
 ![](docs/fiap.stock.ecommerce.png)
+
+
+---
+
+# 4 - explicação/fluxo
+
+clone do projeto
+subindo módulos via docker-compose
+
+![](docs/print-1.png)
+
+![](docs/print-2.png)
+
+![](docs/print-3.png)
+
+![](docs/print-4.png)
+
+#
+
+expondo porta e acessndo o portal
+visualizando que não há produtos
+
+![](docs/print-5.png)
+
+![](docs/print-6.png)
+
+![](docs/print-7.png)
+
+![](docs/print-8.png)
+
+#
+ 
+expondo portal
+acessando o estoque
+cadastrando item no catalogo
+cadastrando produtos
+visualizando que não há pedidos em aberto
+
+![](docs/print-9.png)
+
+![](docs/print-10.png)
+
+![](docs/print-11.png)
+
+![](docs/print-12.png)
+
+![](docs/print-13.png)
+
+#
+ 
+volta no portal
+cadastra um endereço
+visualiza produtos cadastrados e adiciona produtos ao carrinho
+faz pedido
+  
+![](docs/print-15.png)
+
+![](docs/print-14.png)
+
+![](docs/print-16.png)
+
+#
+ 
+volta no estoque
+visualiza pedidos efetuados
+estoquista aprova e rejeita pedidos
+
+![](docs/print-17.png)
+
+#
+
+no portal
+o cliente vê o status dos pedidos respondidos
+
+![](docs/print-18.png)
