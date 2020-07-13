@@ -46,10 +46,24 @@ Este módulo mantém as informações num modelo não normalizado, mantido no ba
 
 ---
 
-# 2 - execução
+# 2 - execução com docker/docker-compose
 
-A instrução de execução de cada módulo está nos seus subdiretórios.  
-Uma vez com todos os módulos no ar, o script ``` test-script.sh ```, na raiz do projeto base, apresenta os vários casos de uso com seus endpoints, e o que é esperado de comportamento. 
+Após o clone local, e toda alteração que for necessária, rode o script build que monta tanto os componentes de backend
+ quanto frontend e gera as suas imagens docker localmente.
+ 
+``` $ ./build.sh ```
+
+#### subindo componentes backend separadamente localmente, com imagens docker locais
+``` $ docker-compose -f docker-compose-local-backend-only.yml up ```
+
+#### subindo componentes frontend separadamente localmente, com imagens docker locais
+``` $ docker-compose -f docker-compose-local-frontend-only.yml up ```
+
+#### subindo componentes backend junto com frontend localmente, com imagens docker locais
+``` $ docker-compose -f docker-compose-local.yml up ```
+
+#### subindo componentes backend junto com frontend, com imagem docker publica
+``` $ docker-compose up ```
 
 ---
 
