@@ -80,7 +80,7 @@ Após o clone local, e toda alteração que for necessária, rode o script build
 - Clone do projeto  
 - Subindo módulos via docker-compose  
 
-![](docs/1-setup.mp4)
+[googledrive/1-setup.mp4](https://drive.google.com/file/d/1xXusUzAhK5KOtgqe1dV0fLs1FUUpKcmy/view?usp=sharing)
 
 #
 
