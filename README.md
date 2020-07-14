@@ -80,13 +80,7 @@ Após o clone local, e toda alteração que for necessária, rode o script build
 - Clone do projeto  
 - Subindo módulos via docker-compose  
 
-![](docs/print-1.png)
-
-![](docs/print-2.png)
-
-![](docs/print-3.png)
-
-![](docs/print-4.png)
+![](docs/1-setup.mp4)
 
 #
 
