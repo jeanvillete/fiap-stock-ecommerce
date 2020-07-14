@@ -113,11 +113,11 @@ Após o clone local, e toda alteração que for necessária, rode o script build
 - Visualiza pedidos efetuados
 - Estoquista aprova e rejeita pedidos
 
-![](docs/print-17.png)
+[googledrive/print-17.png](https://drive.google.com/file/d/1GKNWIWtm5CpFH-Oy0z2wLWExlM_Q3Ci_/view?usp=sharing)
 
 #
 
 - No ***fiap.stock.portal.front***
 - O cliente vê o status dos pedidos respondidos
 
-![](docs/print-18.png)
+[googledrive/print-18.png](https://drive.google.com/file/d/1LnBrSqKcsabeObvuu5NnfM0cX5jnmWDz/view?usp=sharing)
