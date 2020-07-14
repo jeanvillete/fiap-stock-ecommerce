@@ -80,26 +80,14 @@ Após o clone local, e toda alteração que for necessária, rode o script build
 - Clone do projeto  
 - Subindo módulos via docker-compose  
 
-![](docs/print-1.png)
-
-![](docs/print-2.png)
-
-![](docs/print-3.png)
-
-![](docs/print-4.png)
+[googledrive/1-setup.mp4](https://drive.google.com/file/d/1xXusUzAhK5KOtgqe1dV0fLs1FUUpKcmy/view?usp=sharing)
 
 #
 
 - Expondo porta, fazendo login (falha) e então criando conta no ***fiap.stock.portal.front***
 - Visualizando que não há produtos
 
-![](docs/print-5.png)
-
-![](docs/print-6.png)
-
-![](docs/print-7.png)
-
-![](docs/print-8.png)
+[googledrive/2-export-portal.mp4](https://drive.google.com/file/d/1lk-brhzBbSVEIIMU92EeqTwqEnNqE527/view?usp=sharing)
 
 #
  
@@ -108,15 +96,7 @@ Após o clone local, e toda alteração que for necessária, rode o script build
 - Cadastrando produtos
 - Visualizando que não há registros de pedidos
 
-![](docs/print-9.png)
-
-![](docs/print-10.png)
-
-![](docs/print-11.png)
-
-![](docs/print-12.png)
-
-![](docs/print-13.png)
+[googledrive/3-export-mgnt.mp4](https://drive.google.com/file/d/1cUBf3mX11RycNHAC0gRsNpZ7cRcCibr9/view?usp=sharing)
 
 #
  
@@ -125,11 +105,7 @@ Após o clone local, e toda alteração que for necessária, rode o script build
 - Visualiza produtos cadastrados e adiciona produtos ao carrinho
 - Faz pedido
   
-![](docs/print-15.png)
-
-![](docs/print-14.png)
-
-![](docs/print-16.png)
+[googledrive/4-take-an-order.mp4](https://drive.google.com/file/d/1D3UdfVNypd0Ixi25gUn54sIHosc0tfGw/view?usp=sharing)
 
 #
  
