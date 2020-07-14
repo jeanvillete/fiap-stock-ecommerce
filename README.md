@@ -76,6 +76,7 @@ Após o clone local, e toda alteração que for necessária, rode o script build
 
 # 4 - Play With Docker; explicação/fluxo
 
+- Acesso, Login e Adição de nova Instância no ***Play with Docker***
 - Clone do projeto  
 - Subindo módulos via docker-compose  
 
@@ -89,7 +90,7 @@ Após o clone local, e toda alteração que for necessária, rode o script build
 
 #
 
-- Expondo porta e acessndo o portal
+- Expondo porta, fazendo login (falha) e então criando conta no ***fiap.stock.portal.front***
 - Visualizando que não há produtos
 
 ![](docs/print-5.png)
@@ -102,11 +103,10 @@ Após o clone local, e toda alteração que for necessária, rode o script build
 
 #
  
-- Expondo portal
-- Acessando o estoque
+- Expondo porta, fazendo login (falha) e então criando conta no ***fiap.stock.mgnt.front***
 - Cadastrando item no catalogo
 - Cadastrando produtos
-- Visualizando que não há pedidos em aberto
+- Visualizando que não há registros de pedidos
 
 ![](docs/print-9.png)
 
@@ -120,7 +120,7 @@ Após o clone local, e toda alteração que for necessária, rode o script build
 
 #
  
-- Volta no portal
+- Volta no ***fiap.stock.portal.front***
 - Cadastra um endereço
 - Visualiza produtos cadastrados e adiciona produtos ao carrinho
 - Faz pedido
@@ -133,7 +133,7 @@ Após o clone local, e toda alteração que for necessária, rode o script build
 
 #
  
-- Volta no estoque
+- Volta no ***fiap.stock.mgnt.front***
 - Visualiza pedidos efetuados
 - Estoquista aprova e rejeita pedidos
 
@@ -141,7 +141,7 @@ Após o clone local, e toda alteração que for necessária, rode o script build
 
 #
 
-- No portal
+- No ***fiap.stock.portal.front***
 - O cliente vê o status dos pedidos respondidos
 
 ![](docs/print-18.png)
