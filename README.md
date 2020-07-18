@@ -48,8 +48,8 @@ Este módulo mantém as informações num modelo não normalizado, mantido no ba
 
 # 2 - execução com docker/docker-compose
 
-Após o clone local, e toda alteração que for necessária, rode o script build que monta tanto os componentes de backend
- quanto frontend e gera as suas imagens docker localmente.
+Após o clone local (e/ou toda alteração em tempo de desenvolvimento), rode o script build que monta tanto os componentes
+de backend quanto frontend e gera as suas imagens docker localmente.
  
 ``` $ ./build.sh ```
 
