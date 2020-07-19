@@ -27,8 +27,23 @@ export class ProductForm extends Component {
     componentDidMount() {
         const {userId} = this.props
         const {findAllCatalogs} = this.props
+        const {product} = this.state
 
         findAllCatalogs(userId)
+            .then(catalogs => {
+                if (catalogs.length) {
+                    const catalog = catalogs[0]
+
+                    product.catalogId = catalog.id
+
+                    this.state(
+                        {
+                            ...this.state,
+                            product
+                        }
+                    )
+                }
+            })
     }
 
     alert = (type, message) => {

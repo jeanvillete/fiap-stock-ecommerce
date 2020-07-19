@@ -14,7 +14,11 @@ const catalogModel = {
     effects: {
         async findAll(login) {
             return fetchCatalogItems(login)
-                .then(this.setCatalogs)
+                .then(catalogs => {
+                    this.setCatalogs(catalogs)
+
+                    return catalogs
+                })
         },
         async saveNewCatalogItem({userId, description}) {
             return postNewCatalogItem(userId, description)
