@@ -19,6 +19,10 @@ public class Catalog {
     public Catalog() {
     }
 
+    public Catalog(Integer id) {
+        this.id = id;
+    }
+
     public Catalog(Integer id, String loginId, String description) {
         this.id = id;
         this.loginId = loginId;
@@ -40,5 +44,9 @@ public class Catalog {
 
     public String getDescription() {
         return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

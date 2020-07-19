@@ -1,6 +1,7 @@
 package fiap.stock.mgnt.common.application;
 
 import fiap.stock.mgnt.catalog.domain.exception.CatalogConflictException;
+import fiap.stock.mgnt.catalog.domain.exception.CatalogDeletionException;
 import fiap.stock.mgnt.catalog.domain.exception.CatalogNotFoundException;
 import fiap.stock.mgnt.common.exception.InvalidSuppliedDataException;
 import fiap.stock.mgnt.order.domain.exception.OrderConflictException;
@@ -34,7 +35,7 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
         return handleExceptionInternal(ex, ex.getMessage(), new HttpHeaders(), HttpStatus.CONFLICT, request);
     }
 
-    @ExceptionHandler(value = {ProductUnavailableQuantityException.class, OrderIsNotWaitingForResponseException.class})
+    @ExceptionHandler(value = {ProductUnavailableQuantityException.class, OrderIsNotWaitingForResponseException.class, CatalogDeletionException.class})
     protected ResponseEntity<Object> handlePreconditionRequired(Exception ex, WebRequest request) {
         return handleExceptionInternal(ex, ex.getMessage(), new HttpHeaders(), HttpStatus.PRECONDITION_REQUIRED, request);
     }

@@ -1,11 +1,13 @@
 package fiap.stock.mgnt.product.domain;
 
+import fiap.stock.mgnt.catalog.domain.Catalog;
 import fiap.stock.mgnt.common.exception.InvalidSuppliedDataException;
 import fiap.stock.mgnt.product.domain.exception.ProductNotFoundException;
 import fiap.stock.mgnt.product.domain.exception.ProductUnavailableQuantityException;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Optional;
 
 public interface ProductService {
 
@@ -30,5 +32,7 @@ public interface ProductService {
     Product findByCode(String code) throws ProductNotFoundException;
 
     List<Product> findAll();
+
+    Optional<Integer> countByCatalogId(Catalog catalog);
 
 }

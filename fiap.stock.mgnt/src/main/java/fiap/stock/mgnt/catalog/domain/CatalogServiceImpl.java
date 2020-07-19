@@ -1,8 +1,10 @@
 package fiap.stock.mgnt.catalog.domain;
 
 import fiap.stock.mgnt.catalog.domain.exception.CatalogConflictException;
+import fiap.stock.mgnt.catalog.domain.exception.CatalogDeletionException;
 import fiap.stock.mgnt.catalog.domain.exception.CatalogNotFoundException;
 import fiap.stock.mgnt.common.exception.InvalidSuppliedDataException;
+import fiap.stock.mgnt.product.domain.ProductService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,9 +17,11 @@ class CatalogServiceImpl implements CatalogService {
     private static final int MAX_DESCRIPTION_LENGTH = 50;
 
     private final CatalogRepository catalogRepository;
+    private final ProductService productService;
 
-    CatalogServiceImpl(CatalogRepository catalogRepository) {
+    CatalogServiceImpl(CatalogRepository catalogRepository, ProductService productService) {
         this.catalogRepository = catalogRepository;
+        this.productService = productService;
     }
 
     @Override
@@ -109,6 +113,32 @@ class CatalogServiceImpl implements CatalogService {
                     "Impossible insert, there's already a catalog item record with this description."
             );
         }
+    }
+
+    @Override
+    public void ensureNoProductIsAssociated(Catalog catalog) throws CatalogDeletionException {
+        Integer countProductsByCatalogId = this.productService.countByCatalogId(catalog)
+                .orElse(0);
+
+        if (countProductsByCatalogId > 0) {
+            throw new CatalogDeletionException(
+                    "Impossible apply delete for this catalog, cause it has product records associated with it."
+            );
+        }
+    }
+
+    @Override
+    public void delete(Catalog catalog) {
+        catalogRepository.deleteById(catalog.getId());
+    }
+
+    @Override
+    public Catalog findById(Catalog catalog) throws CatalogNotFoundException {
+        Integer catalogId = catalog.getId();
+        return this.catalogRepository.findById(catalogId)
+                .orElseThrow(() ->
+                        new CatalogNotFoundException("No catalog record could be found for the provided id; " + catalogId)
+                );
     }
 
 }

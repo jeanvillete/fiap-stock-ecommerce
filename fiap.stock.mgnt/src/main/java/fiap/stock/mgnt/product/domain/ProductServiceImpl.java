@@ -1,5 +1,6 @@
 package fiap.stock.mgnt.product.domain;
 
+import fiap.stock.mgnt.catalog.domain.Catalog;
 import fiap.stock.mgnt.common.exception.InvalidSuppliedDataException;
 import fiap.stock.mgnt.order.domain.OrderService;
 import fiap.stock.mgnt.product.domain.exception.ProductNotFoundException;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.regex.Pattern;
 
 @Service
@@ -132,6 +134,11 @@ class ProductServiceImpl implements ProductService {
     @Override
     public List<Product> findAll() {
         return productRepository.findAll();
+    }
+
+    @Override
+    public Optional<Integer> countByCatalogId(Catalog catalog) {
+        return productRepository.countByCatalog(catalog);
     }
 
 }

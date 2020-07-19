@@ -1,6 +1,8 @@
 package fiap.stock.mgnt.catalog.application;
 
 import fiap.stock.mgnt.catalog.domain.exception.CatalogConflictException;
+import fiap.stock.mgnt.catalog.domain.exception.CatalogDeletionException;
+import fiap.stock.mgnt.catalog.domain.exception.CatalogNotFoundException;
 import fiap.stock.mgnt.catalog.domain.usecase.CatalogUseCase;
 import fiap.stock.mgnt.common.exception.InvalidSuppliedDataException;
 import org.springframework.http.HttpStatus;
@@ -38,11 +40,19 @@ public class CatalogController {
     public CatalogUseCase.CatalogPayload updateCatalogItem(
             @PathVariable("loginId") String loginId,
             @PathVariable("catalogId") Integer catalogId,
-            @RequestBody CatalogUseCase.CatalogPayload catalogPayload) throws CatalogConflictException, InvalidSuppliedDataException {
+            @RequestBody CatalogUseCase.CatalogPayload catalogPayload) throws CatalogConflictException, InvalidSuppliedDataException, CatalogNotFoundException {
 
         catalogPayload.setId(catalogId);
 
         return catalogUseCase.updateCatalogItem(loginId, catalogPayload);
+    }
+
+    @DeleteMapping("{catalogId}")
+    public void deleteCatalogItem(
+            @PathVariable("loginId") String loginId,
+            @PathVariable("catalogId") Integer catalogId) throws CatalogDeletionException, InvalidSuppliedDataException, CatalogNotFoundException {
+
+        catalogUseCase.deleteCatalogItem(loginId, catalogId);
     }
 
 }

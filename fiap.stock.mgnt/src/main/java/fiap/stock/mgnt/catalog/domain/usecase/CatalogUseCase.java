@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import fiap.stock.mgnt.catalog.domain.Catalog;
 import fiap.stock.mgnt.catalog.domain.CatalogService;
 import fiap.stock.mgnt.catalog.domain.exception.CatalogConflictException;
+import fiap.stock.mgnt.catalog.domain.exception.CatalogDeletionException;
+import fiap.stock.mgnt.catalog.domain.exception.CatalogNotFoundException;
 import fiap.stock.mgnt.common.exception.InvalidSuppliedDataException;
 import org.springframework.stereotype.Component;
 
@@ -66,24 +68,37 @@ public class CatalogUseCase {
                 .collect(Collectors.toList());
     }
 
-    public CatalogPayload updateCatalogItem(String loginId, CatalogPayload catalogPayload) throws InvalidSuppliedDataException, CatalogConflictException {
+    public CatalogPayload updateCatalogItem(String loginId, CatalogPayload catalogPayload) throws InvalidSuppliedDataException, CatalogConflictException, CatalogNotFoundException {
         this.catalogService.validLoginId(loginId);
 
         this.catalogService.validCatalogId(catalogPayload.id);
 
         this.catalogService.validDescription(catalogPayload.description);
 
-        Catalog detachedCatalog = new Catalog(
-                catalogPayload.id,
-                loginId,
-                catalogPayload.description
-        );
+        Catalog detachedCatalog = new Catalog(catalogPayload.id);
 
-        this.catalogService.checkForConflictOnUpdate(detachedCatalog);
+        Catalog attachedCatalog = this.catalogService.findById(detachedCatalog);
+        attachedCatalog.setDescription(catalogPayload.description);
 
-        this.catalogService.persist(detachedCatalog);
+        this.catalogService.checkForConflictOnUpdate(attachedCatalog);
 
-        return getCatalogPayload(detachedCatalog);
+        this.catalogService.persist(attachedCatalog);
+
+        return getCatalogPayload(attachedCatalog);
+    }
+
+    public void deleteCatalogItem(String loginId, Integer catalogId) throws InvalidSuppliedDataException, CatalogDeletionException, CatalogNotFoundException {
+        this.catalogService.validLoginId(loginId);
+
+        this.catalogService.validCatalogId(catalogId);
+
+        Catalog detachedCatalog = new Catalog(catalogId);
+
+        Catalog attachedCatalog = this.catalogService.findById(detachedCatalog);
+
+        this.catalogService.ensureNoProductIsAssociated(attachedCatalog);
+
+        this.catalogService.delete(attachedCatalog);
     }
 
     private CatalogPayload getCatalogPayload(Catalog catalog) {

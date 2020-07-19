@@ -139,7 +139,7 @@ GET /stock/users/5ef958b02994931e98c15366/catalogs
 
 #
 
-#### 2.3 - [use case: estoquista atualiza a descrição de um item do catálogo]
+#### 2.3 - [use case: estoquista atualiza a descrição de um item do catálogo: DONE]
 - A informação ***loginId*** deverá ser recebida via path variable, e refere-se a identificação do estoquista (UserType stock), o que quer dizer que o valor de um login válido efetuado via módulo ***fiap.sample.login*** deve ter sido obtido
     - ***loginId*** (deve conter no máximo 25 caracteres, necessário para o tamaho de um _id do MongoDB, que é de onde vem esta informação), campo mandatório
         - [validar] deve ser verificado se o ***loginId*** é de fato válido para o tipo (UserType) 'stock'
@@ -167,7 +167,7 @@ POST stock/users/5ef958b02994931e98c15366/catalogs/123
 
 #
 
-#### 2.4 - [use case: estoquista exclui um item do catálogo]
+#### 2.4 - [use case: estoquista exclui um item do catálogo: DONE]
 - A informação ***loginId*** deverá ser recebida via path variable, e refere-se a identificação do estoquista (UserType stock), o que quer dizer que o valor de um login válido efetuado via módulo ***fiap.sample.login*** deve ter sido obtido
     - ***loginId*** (deve conter no máximo 25 caracteres, necessário para o tamaho de um _id do MongoDB, que é de onde vem esta informação), campo mandatório
         - [validar] deve ser verificado se o ***loginId*** é de fato válido para o tipo (UserType) 'stock'
