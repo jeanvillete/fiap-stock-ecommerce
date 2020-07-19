@@ -1,5 +1,6 @@
 package fiap.stock.mgnt.catalog.domain;
 
+import fiap.stock.mgnt.catalog.domain.exception.CatalogConflictException;
 import fiap.stock.mgnt.catalog.domain.exception.CatalogNotFoundException;
 import fiap.stock.mgnt.common.exception.InvalidSuppliedDataException;
 
@@ -11,10 +12,16 @@ public interface CatalogService {
 
     void validDescription(String description) throws InvalidSuppliedDataException;
 
-    void insert(Catalog catalog);
+    void persist(Catalog catalog);
 
     Catalog findById(Integer catalogId) throws CatalogNotFoundException;
 
     List<Catalog> findAll();
+
+    void validCatalogId(Integer id) throws InvalidSuppliedDataException;
+
+    void checkForConflictOnUpdate(Catalog catalog) throws CatalogConflictException;
+
+    void checkForConflictOnInsert(Catalog catalog) throws CatalogConflictException;
 
 }

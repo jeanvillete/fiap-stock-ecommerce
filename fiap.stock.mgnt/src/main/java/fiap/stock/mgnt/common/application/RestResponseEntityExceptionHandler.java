@@ -1,5 +1,6 @@
 package fiap.stock.mgnt.common.application;
 
+import fiap.stock.mgnt.catalog.domain.exception.CatalogConflictException;
 import fiap.stock.mgnt.catalog.domain.exception.CatalogNotFoundException;
 import fiap.stock.mgnt.common.exception.InvalidSuppliedDataException;
 import fiap.stock.mgnt.order.domain.exception.OrderConflictException;
@@ -28,7 +29,7 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
         return handleExceptionInternal(ex, ex.getMessage(), new HttpHeaders(), HttpStatus.NOT_FOUND, request);
     }
 
-    @ExceptionHandler(value = {OrderConflictException.class})
+    @ExceptionHandler(value = {OrderConflictException.class, CatalogConflictException.class})
     protected ResponseEntity<Object> handleConflict(Exception ex, WebRequest request) {
         return handleExceptionInternal(ex, ex.getMessage(), new HttpHeaders(), HttpStatus.CONFLICT, request);
     }

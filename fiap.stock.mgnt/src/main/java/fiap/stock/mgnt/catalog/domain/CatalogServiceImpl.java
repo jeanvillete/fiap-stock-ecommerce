@@ -1,5 +1,6 @@
 package fiap.stock.mgnt.catalog.domain;
 
+import fiap.stock.mgnt.catalog.domain.exception.CatalogConflictException;
 import fiap.stock.mgnt.catalog.domain.exception.CatalogNotFoundException;
 import fiap.stock.mgnt.common.exception.InvalidSuppliedDataException;
 import org.springframework.stereotype.Service;
@@ -53,7 +54,7 @@ class CatalogServiceImpl implements CatalogService {
     }
 
     @Override
-    public void insert(Catalog catalog) {
+    public void persist(Catalog catalog) {
         catalogRepository.save(catalog);
     }
 
@@ -66,6 +67,48 @@ class CatalogServiceImpl implements CatalogService {
     @Override
     public List<Catalog> findAll() {
         return catalogRepository.findAll();
+    }
+
+    @Override
+    public void validCatalogId(Integer id) throws InvalidSuppliedDataException {
+        if (Objects.isNull(id)) {
+            throw new InvalidSuppliedDataException("Nested argument catalog 'id' is mandatory.");
+        }
+
+        boolean idGreaterThanZero = id > 0;
+
+        if (!idGreaterThanZero) {
+            throw new InvalidSuppliedDataException("Nested argument catalog 'id' must be greater than zero.");
+        }
+    }
+
+    @Override
+    public void checkForConflictOnUpdate(Catalog catalog) throws CatalogConflictException {
+        Integer countCatalogsByDescriptionExcludingCurrentId = this.catalogRepository.countByDescriptionAndIdNot(
+                catalog.getDescription(),
+                catalog.getId()
+        )
+        .orElse(0);
+
+        if (countCatalogsByDescriptionExcludingCurrentId > 0) {
+            throw new CatalogConflictException(
+                    "Impossible apply update, there's already a catalog item record with this description."
+            );
+        }
+    }
+
+    @Override
+    public void checkForConflictOnInsert(Catalog catalog) throws CatalogConflictException {
+        Integer countCatalogsByDescription = this.catalogRepository.countByDescription(
+                catalog.getDescription()
+        )
+        .orElse(0);
+
+        if (countCatalogsByDescription > 0) {
+            throw new CatalogConflictException(
+                    "Impossible insert, there's already a catalog item record with this description."
+            );
+        }
     }
 
 }

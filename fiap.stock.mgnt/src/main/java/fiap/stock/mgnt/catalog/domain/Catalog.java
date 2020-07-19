@@ -19,6 +19,12 @@ public class Catalog {
     public Catalog() {
     }
 
+    public Catalog(Integer id, String loginId, String description) {
+        this.id = id;
+        this.loginId = loginId;
+        this.description = description;
+    }
+
     public Catalog(String loginId, String description) {
         this.loginId = loginId;
         this.description = description;

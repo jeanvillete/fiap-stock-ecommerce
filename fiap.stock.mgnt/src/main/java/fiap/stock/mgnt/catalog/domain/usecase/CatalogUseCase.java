@@ -1,7 +1,9 @@
 package fiap.stock.mgnt.catalog.domain.usecase;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import fiap.stock.mgnt.catalog.domain.Catalog;
 import fiap.stock.mgnt.catalog.domain.CatalogService;
+import fiap.stock.mgnt.catalog.domain.exception.CatalogConflictException;
 import fiap.stock.mgnt.common.exception.InvalidSuppliedDataException;
 import org.springframework.stereotype.Component;
 
@@ -12,7 +14,10 @@ import java.util.stream.Collectors;
 public class CatalogUseCase {
 
     public static class CatalogPayload {
+        @JsonProperty
         Integer id;
+
+        @JsonProperty
         String description;
 
         public CatalogPayload() {
@@ -23,20 +28,8 @@ public class CatalogUseCase {
             this.description = description;
         }
 
-        public Integer getId() {
-            return id;
-        }
-
         public void setId(Integer id) {
             this.id = id;
-        }
-
-        public String getDescription() {
-            return description;
-        }
-
-        public void setDescription(String description) {
-            this.description = description;
         }
     }
 
@@ -46,22 +39,21 @@ public class CatalogUseCase {
         this.catalogService = catalogService;
     }
 
-    public CatalogPayload insertNewCatalogItem(String loginId, CatalogPayload catalogPayload) throws InvalidSuppliedDataException {
+    public CatalogPayload insertNewCatalogItem(String loginId, CatalogPayload catalogPayload) throws InvalidSuppliedDataException, CatalogConflictException {
         this.catalogService.validLoginId(loginId);
 
         this.catalogService.validDescription(catalogPayload.description);
 
         Catalog catalog = new Catalog(
                 loginId,
-                catalogPayload.getDescription()
+                catalogPayload.description
         );
 
-        this.catalogService.insert(catalog);
+        this.catalogService.checkForConflictOnInsert(catalog);
 
-        return new CatalogPayload(
-                catalog.getId(),
-                catalog.getDescription()
-        );
+        this.catalogService.persist(catalog);
+
+        return getCatalogPayload(catalog);
     }
 
     public List<CatalogPayload> catalogList(String loginId) throws InvalidSuppliedDataException {
@@ -70,13 +62,34 @@ public class CatalogUseCase {
         List<Catalog> catalogList = this.catalogService.findAll();
 
         return catalogList.stream()
-                .map(catalog ->
-                        new CatalogPayload(
-                                catalog.getId(),
-                                catalog.getDescription()
-                        )
-                )
+                .map(this::getCatalogPayload)
                 .collect(Collectors.toList());
     }
 
+    public CatalogPayload updateCatalogItem(String loginId, CatalogPayload catalogPayload) throws InvalidSuppliedDataException, CatalogConflictException {
+        this.catalogService.validLoginId(loginId);
+
+        this.catalogService.validCatalogId(catalogPayload.id);
+
+        this.catalogService.validDescription(catalogPayload.description);
+
+        Catalog detachedCatalog = new Catalog(
+                catalogPayload.id,
+                loginId,
+                catalogPayload.description
+        );
+
+        this.catalogService.checkForConflictOnUpdate(detachedCatalog);
+
+        this.catalogService.persist(detachedCatalog);
+
+        return getCatalogPayload(detachedCatalog);
+    }
+
+    private CatalogPayload getCatalogPayload(Catalog catalog) {
+        return new CatalogPayload(
+                catalog.getId(),
+                catalog.getDescription()
+        );
+    }
 }
