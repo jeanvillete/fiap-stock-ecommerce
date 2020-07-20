@@ -1,19 +1,25 @@
-# 1 - intro
-
-O projeto em questão atende ao trabalho para avaliação da disciplina **Microservice Development**, que compreende o
- desenvolvimento de um aplicativo desenvolvido em módulos separados porém que deve atender uma demanda em comum no fim.
-
-A minha escolha foi o desenvolvimento de um exemplo fitício da gerencia de um estoque, a apresentação deste estoque em
- um portal, a solicitação de pedidos/compras neste portal, a integração entre o atendimento por parte do estoquista,
- confirmando ou rejeitando pedidos de clientes. 
-
-#
-
 ###### Escola: FIAP
 ###### Curso: MBA FULLSTACK DEVELOPER, MICROSERVICES, CLOUD & IoT
-###### Matéria: MICROSERVICES DEVELOPMENT
-###### Prof.: ANDRE PONTES SAMPAIO
 ###### Aluno / RM: JEAN BRUNO SOUTO VILLETE / 335435
+
+# 1 - intro
+
+O repositório corrente mantém um conjunto de projetos que evolui de acordo com as matérias cursadas na ***FIAP***, no
+ curso ***MBA FULLSTACK DEVELOPER, MICROSERVICES, CLOUD & IoT***.
+
+A minha escolha foi o desenvolvimento de um exemplo fitício da gerencia de um estoque, a apresentação deste estoque em
+ um portal, a solicitação de pedidos/compras neste portal, e a integração entre o atendimento por parte do estoquista,
+ confirmando ou rejeitando pedidos de clientes.
+
+Para cada matéria cursada, eu mantenho um artefato README.md correspondente, que descreve o que houve de contribução e
+ evolução no projeto.
+
+| MATÉRIA | PROFESSOR | LINK README |
+| --- | --- | --- |
+| PERSISTENCE | RAFAEL TSUJI MATSUYAMA | - |
+| MICROSERVICES DEVELOPMENT | ANDRE PONTES SAMPAIO | [README-MICROSERVICES-DEVELOPMENT.md](README-MICROSERVICES-DEVELOPMENT.md) |
+| DEVOPS | HELDER PEREIRA | - |
+| INTEGRATIONS & DEVELOPMENT TOOLS | CARLOS VINICIUS MAGNABOSCHI HESKETH | - |
 
 #
  
