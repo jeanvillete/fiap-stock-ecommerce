@@ -1,4 +1,4 @@
-import { fetchCatalogItems, postNewCatalogItem } from './CatalogDomain'
+import { fetchCatalogItems, postNewCatalogItem, putCatalogItem, deleteCatalogItem } from './CatalogDomain'
 
 const defaultState = {
     catalogs: []
@@ -22,6 +22,22 @@ const catalogModel = {
         },
         async saveNewCatalogItem({userId, description}) {
             return postNewCatalogItem(userId, description)
+                .then(catalogItem => {
+                    this.findAll()
+
+                    return catalogItem
+                })
+        },
+        async updateCatalogItem({userId, catalog}) {
+            return putCatalogItem(userId, catalog)
+                .then(catalogItem => {
+                    this.findAll()
+
+                    return catalogItem
+                })
+        },
+        async deleteCatalogItemById({userId, catalogId}) {
+            return deleteCatalogItem(userId, catalogId)
                 .then(() => this.findAll())
         }
     }

@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import {connect} from 'react-redux'
-import Alert from '../alert/Alert'
 
 export class ProductForm extends Component {
 
@@ -9,10 +8,6 @@ export class ProductForm extends Component {
 
         this.state = {
             product: this.emptyProduct(),
-            alert: {
-                type: null,
-                message: null
-            }
         }
     }
 
@@ -26,8 +21,10 @@ export class ProductForm extends Component {
     
     componentDidMount() {
         const {userId} = this.props
-        const {findAllCatalogs} = this.props
+        const {findAllCatalogs, clearAlert} = this.props
         const {product} = this.state
+
+        clearAlert()
 
         findAllCatalogs(userId)
             .then(catalogs => {
@@ -36,7 +33,7 @@ export class ProductForm extends Component {
 
                     product.catalogId = catalog.id
 
-                    this.state(
+                    this.setState(
                         {
                             ...this.state,
                             product
@@ -46,31 +43,16 @@ export class ProductForm extends Component {
             })
     }
 
-    alert = (type, message) => {
-        type = type || null
-        message = message || null
-
-        this.setState(
-            {
-                ...this.state,
-                alert: {
-                    type: type,
-                    message: message
-                }
-            }
-        )
-    }
-
     productFormSubmitHandler = event => {
         event.preventDefault()
 
         const {userId} = this.props
-        const {saveNewProduct} = this.props
+        const {saveNewProduct, successAlert, warningAlert} = this.props
         const {product} = this.state
 
         saveNewProduct({userId, product})
             .then(productCreated => {
-                this.alert('success', `Produto ${productCreated.code} adicionado com sucesso.`)
+                successAlert(`Produto ${productCreated.code} adicionado com sucesso.`)
 
                 this.setState(
                     {
@@ -79,7 +61,7 @@ export class ProductForm extends Component {
                     }
                 )
             })
-            .catch(({response}) => this.alert('warning', response.data))
+            .catch(({response}) => warningAlert(response.data))
     }
 
     catalogChangeHandler = event => {
@@ -128,7 +110,7 @@ export class ProductForm extends Component {
     }
 
     render() {
-        const {alert, product} = this.state
+        const {product} = this.state
         const {catalogs} = this.props
 
         return (
@@ -168,8 +150,6 @@ export class ProductForm extends Component {
                         </form>
                     </div>
                 </div>
-
-                <Alert type={alert.type} message={alert.message}/>
             </div>
         )
     }
@@ -185,11 +165,14 @@ export default connect(
         }
     },
     dispatchers => {
-        const {productModel, catalogModel} = dispatchers
+        const {productModel, catalogModel, alertModel} = dispatchers
 
         return {
             saveNewProduct: productModel.saveNewProduct,
-            findAllCatalogs: catalogModel.findAll
+            findAllCatalogs: catalogModel.findAll,
+            clearAlert: alertModel.clear,
+            successAlert: alertModel.success,
+            warningAlert: alertModel.warning
         }
     }
 )(ProductForm)

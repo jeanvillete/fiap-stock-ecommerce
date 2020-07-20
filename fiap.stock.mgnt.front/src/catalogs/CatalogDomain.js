@@ -17,3 +17,15 @@ export const postNewCatalogItem = async (userId, description) => {
         .post(url(userId), catalogItem)
         .then(response => response.data)
 }
+
+export const putCatalogItem = async (userId, catalog) => {
+    return axios
+        .post(`${url(userId)}/${catalog.id}`, catalog)
+        .then(response => response.data)
+}
+
+export const deleteCatalogItem = async (userId, catalogId) => {
+    return axios
+        .delete(`${url(userId)}/${catalogId}`)
+        .then(response => response.data)
+}

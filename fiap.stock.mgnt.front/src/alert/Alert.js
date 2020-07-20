@@ -1,22 +1,47 @@
-import React from 'react'
+import React, { Component } from 'react'
+import {connect} from 'react-redux'
 
-const alert = props => {
+export class Alert extends Component {
 
-    const {type, message} = props
+    constructor(props) {
+        super(props)
 
-    const style = {
-        display: message ? 'block' : 'none'
+        this.state = {
+        }
+    }
+    
+    componentDidMount() {
     }
 
-    const className = `mb-3 alert alert-${type}`
+    render() {
+        const {type, message} = this.props
 
-    console.log('Alert; ', props)
+        const style = {
+            display: message ? 'block' : 'none'
+        }
 
-    return (
-        <div className={className} role="alert" style={style}>
-            {message}
-        </div>
-    )
+        const className = `mb-3 alert alert-${type}`
+
+        return (
+            <div className={className} role="alert" style={style}>
+                {message}
+            </div>
+        )
+    }
 }
 
-export default alert
+export default connect(
+    state => {
+        const {alertModel} = state
+
+        return {
+            type: alertModel.type,
+            message: alertModel.message
+        }
+    },
+    dispatchers => {
+
+        return {
+        }
+    }
+)(Alert)

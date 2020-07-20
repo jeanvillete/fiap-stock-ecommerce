@@ -10,58 +10,42 @@ export class Login extends Component {
         super(props)
 
         this.state = {
-            alert: {
-                type: null,
-                message: null
-            }
         }
     }
 
-    alert = (type, message) => {
-        type = type || null
-        message = message || null
-
-        this.setState(
-            {
-                ...this.state,
-                alert: {
-                    type: type,
-                    message: message
-                }
-            }
-        )
+    componentDidMount() {
+        const {clearAlert} = this.props
+        clearAlert()
     }
 
     loginFormSubmitHandler = event => {
         event.preventDefault()
 
-        const {doLogin, login} = this.props
+        const {doLogin, login, successAlert, warningAlert} = this.props
 
         doLogin(login)
-            .then(() => this.alert('success', `Usuário ${login} logado com sucesso.`))
-            .catch(({response}) => this.alert('warning', response.data))
+            .then(() => successAlert(`Usuário ${login} logado com sucesso.`))
+            .catch(({response}) => warningAlert(response.data))
     }
 
     loginChangeHandler = event => {
         const login = event.target.value;
-        const {setLogin} = this.props
+        const {setLogin, clearAlert} = this.props
 
         setLogin(login)
-
-        this.alert()
+        clearAlert()
     }
 
     createUserHandler = event => {
-        const {saveNewUser, login} = this.props
+        const {login} = this.props
+        const {saveNewUser, successAlert, warningAlert} = this.props
 
         saveNewUser(login)
-            .then(() => this.alert('success', `Usuário ${login} criado com sucesso.`))
-            .catch(({response}) => this.alert('warning', response.data))
+            .then(() => successAlert(`Usuário ${login} criado com sucesso.`))
+            .catch(({response}) => warningAlert(response.data))
     }
 
     render() {
-        const {alert} = this.state
-
         return (
             <form className="form-signin" onSubmit={this.loginFormSubmitHandler} >
                 <h1 className="h3 mb-3 font-weight-normal">Please sign in</h1>
@@ -75,7 +59,7 @@ export class Login extends Component {
                     <button className="btn btn-lg btn-secondary btn-block" type="button" onClick={this.createUserHandler}>Create</button>
                 </div>
                 
-                <Alert type={alert.type} message={alert.message}/>
+                <Alert />
             </form>
         )
     }
@@ -92,12 +76,15 @@ const mapStateToProps = state => {
 }
 
 const mapDispatchToProps = dispatchers => {
-    const {loginModel} = dispatchers
+    const {loginModel, alertModel} = dispatchers
 
     return {
         setLogin: loginModel.setLogin,
         doLogin: loginModel.doLogin,
         saveNewUser: loginModel.saveNewUser,
+        clearAlert: alertModel.clear,
+        successAlert: alertModel.success,
+        warningAlert: alertModel.warning
     }
 }
 

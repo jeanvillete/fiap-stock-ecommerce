@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import {connect} from 'react-redux'
-import Alert from '../alert/Alert'
 
 export class CatalogForm extends Component {
 
@@ -8,49 +7,34 @@ export class CatalogForm extends Component {
         super(props)
 
         this.state = {
-            description: null,
-            alert: {
-                type: null,
-                message: null
-            }
+            description: ''
         }
     }
     
     componentDidMount() {
-    }
-
-    alert = (type, message) => {
-        type = type || null
-        message = message || null
-
-        this.setState(
-            {
-                ...this.state,
-                alert: {
-                    type: type,
-                    message: message
-                }
-            }
-        )
+        const {clearAlert} = this.props
+        clearAlert()
     }
 
     catalogFormSubmitHandler = event => {
         event.preventDefault()
 
         const {userId} = this.props
-        const {saveNewCatalogItem} = this.props
+        const {saveNewCatalogItem, successAlert, warningAlert} = this.props
         const {description} = this.state
 
         saveNewCatalogItem({userId, description})
-            .then(userId => this.alert('success', `Item ${description} adicionado com sucesso.`))
-            .catch(({response}) => this.alert('warning', response.data))
+            .then(catalogItem => {
+                successAlert(`Item ${catalogItem.description} adicionado com sucesso.`)
 
-        this.setState(
-            {
-                ...this.state,
-                description: ''
-            }
-        )
+                this.setState(
+                    {
+                        ...this.state,
+                        description: ''
+                    }
+                )
+            })
+            .catch(({response}) => warningAlert(response.data))
     }
 
     descriptionChangeHandler = event => {
@@ -65,7 +49,7 @@ export class CatalogForm extends Component {
     }
 
     render() {
-        const {alert, description} = this.state
+        const {description} = this.state
 
         return (
             <div>
@@ -90,8 +74,6 @@ export class CatalogForm extends Component {
                         </form>
                     </div>
                 </div>
-
-                <Alert type={alert.type} message={alert.message}/>
             </div>
         )
     }
@@ -106,10 +88,13 @@ export default connect(
         }
     },
     dispatchers => {
-        const {catalogModel} = dispatchers
+        const {catalogModel, alertModel} = dispatchers
 
         return {
-            saveNewCatalogItem: catalogModel.saveNewCatalogItem
+            saveNewCatalogItem: catalogModel.saveNewCatalogItem,
+            clearAlert: alertModel.clear,
+            successAlert: alertModel.success,
+            warningAlert: alertModel.warning
         }
     }
 )(CatalogForm)

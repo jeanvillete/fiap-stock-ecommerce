@@ -3,6 +3,7 @@ import loginModel from '../login/LoginModel'
 import catalogModel from '../catalogs/CatalogModel'
 import productModel from '../products/ProductModel'
 import orderModel from '../orders/OrderModel'
+import alertModel from '../alert/AlertModel'
 
 export const initStore = middlewares => {
     return init({
@@ -13,7 +14,8 @@ export const initStore = middlewares => {
             loginModel,
             catalogModel,
             productModel,
-            orderModel
+            orderModel,
+            alertModel
         }
     })
 }

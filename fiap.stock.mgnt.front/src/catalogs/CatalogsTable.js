@@ -12,9 +12,21 @@ export class CatalogsTable extends Component {
     
     componentDidMount() {
         const {userId} = this.props
-        const {findAll} = this.props
+        const {clearAlert, findAll} = this.props
 
+        clearAlert()
         findAll(userId)
+    }
+
+    removeCatalogByIdHandler = catalogItem => {
+        const {userId} = this.props
+        const {deleteCatalogItemById, successAlert, warningAlert} = this.props
+
+        if (window.confirm(`Confirma a exclusão do item ${catalogItem.description} do Catálogo ? Operação não pode ser desfeita.`)) {
+            deleteCatalogItemById({userId, catalogId: catalogItem.id})
+                .then(() => successAlert(`Item ${catalogItem.description} removido com sucesso.`))
+                .catch(({response}) => warningAlert(response.data))
+        }
     }
 
     render() {
@@ -36,7 +48,7 @@ export class CatalogsTable extends Component {
                                     </strong>
                                     
                                     <span className="d-block pt-1">
-                                        <button className="btn btn-sm btn-link" type="button" >Remover</button>
+                                        <button className="btn btn-sm btn-link" type="button" onClick={() => this.removeCatalogByIdHandler(catalogItem)} >Remover</button>
                                         <button className="btn btn-sm btn-link" type="button" >Editar</button>
                                     </span>
 
@@ -60,10 +72,15 @@ export default connect(
         }
     },
     dispatchers => {
-        const {catalogModel} = dispatchers
+        const {catalogModel, alertModel} = dispatchers
 
         return {
-            findAll: catalogModel.findAll
+            findAll: catalogModel.findAll,
+            updateCatalogItem: catalogModel.updateCatalogItem,
+            deleteCatalogItemById: catalogModel.deleteCatalogItemById,
+            clearAlert: alertModel.clear,
+            successAlert: alertModel.success,
+            warningAlert: alertModel.warning
         }
     }
 )(CatalogsTable)

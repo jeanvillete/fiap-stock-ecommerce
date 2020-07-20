@@ -12,26 +12,32 @@ export class OrdersTable extends Component {
     
     componentDidMount() {
         const {userId} = this.props
-        const {findAll} = this.props
+        const {findAll, clearAlert} = this.props
+
+        clearAlert()
 
         findAll(userId)
     }
 
     approveOrder = orderCode => {
         const {userId} = this.props
-        const {approve} = this.props
+        const {approve, successAlert, warningAlert} = this.props
 
-        if (window.confirm(`Confrma aprovação da ordem ${orderCode}? Ação não pode ser desfeita.`)) {
+        if (window.confirm(`Confrma aprovação do pedido ${orderCode}? Ação não pode ser desfeita.`)) {
             approve({userId, orderCode})
+                .then(approvedOrder => successAlert(`Pedido ${approvedOrder.code} aprovado com sucesso.`))
+                .catch(({response}) => warningAlert(response.data))
         }
     }
 
     rejectOrder = orderCode => {
         const {userId} = this.props
-        const {reject} = this.props
+        const {reject, successAlert, warningAlert} = this.props
 
-        if (window.confirm(`Confrma rejeição da ordem ${orderCode}? Ação não pode ser desfeita.`)) {
+        if (window.confirm(`Confrma rejeição do pedido ${orderCode}? Ação não pode ser desfeita.`)) {
             reject({userId, orderCode})
+                .then(rejectedOrder => successAlert(`Pedido ${rejectedOrder.code} rejeitado com sucesso.`))
+                .catch(({response}) => warningAlert(response.data))
         }
     }
 
@@ -92,12 +98,15 @@ export default connect(
         }
     },
     dispatchers => {
-        const {orderModel} = dispatchers
+        const {orderModel, alertModel} = dispatchers
 
         return {
             findAll: orderModel.findAll,
             approve: orderModel.approve,
-            reject: orderModel.reject
+            reject: orderModel.reject,
+            clearAlert: alertModel.clear,
+            successAlert: alertModel.success,
+            warningAlert: alertModel.warning
         }
     }
 )(OrdersTable)
