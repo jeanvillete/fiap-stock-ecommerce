@@ -20,3 +20,10 @@ logging:
 stock:
   portal:
     host: http://0.0.0.0:8383/
+
+rabbitmq:
+  host: 0.0.0.0
+  port: 5672
+  username: rabbit-usr
+  password: rabbit-pwd
+  virtual-host: '/'

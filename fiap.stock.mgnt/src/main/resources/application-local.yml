@@ -8,3 +8,10 @@ logging:
 stock:
   portal:
     host: http://localhost:8383/
+
+rabbitmq:
+  host: localhost
+  port: 5672
+  username: rabbit-usr
+  password: rabbit-pwd
+  virtual-host: '/'
