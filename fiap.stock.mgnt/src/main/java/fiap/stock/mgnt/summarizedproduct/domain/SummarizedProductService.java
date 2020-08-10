@@ -7,6 +7,6 @@ public interface SummarizedProductService {
 
     SummarizedProduct summarizeProduct(Product product);
 
-    void postToStockPortal(String loginId, SummarizedProduct summarizedProduct) throws InvalidSuppliedDataException;
+    void postSummarizedProductToStockPortal(String loginId, SummarizedProduct summarizedProduct) throws InvalidSuppliedDataException;
 
 }

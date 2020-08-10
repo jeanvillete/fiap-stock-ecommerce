@@ -43,7 +43,7 @@ class SummarizedProductServiceImpl implements SummarizedProductService {
     }
 
     @Override
-    public void postToStockPortal(String loginId, SummarizedProduct summarizedProduct) throws InvalidSuppliedDataException {
+    public void postSummarizedProductToStockPortal(String loginId, SummarizedProduct summarizedProduct) throws InvalidSuppliedDataException {
         RestTemplate restTemplate = new RestTemplate();
 
         HttpHeaders headers = new HttpHeaders();

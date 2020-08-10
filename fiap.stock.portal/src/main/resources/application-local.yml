@@ -6,11 +6,14 @@ spring:
 logging:
   config: classpath:logback-local.xml
 
-stock:
-  mgnt:
-    host: http://localhost:8282/
-
 redis:
   host: localhost
   port: 6379
   password:
+
+rabbitmq:
+  host: localhost
+  port: 5672
+  username: rabbit-usr
+  password: rabbit-pwd
+  virtual-host: '/'

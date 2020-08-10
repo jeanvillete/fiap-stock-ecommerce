@@ -1,50 +1,71 @@
 package fiap.stock.portal.stockorder.domain;
 
-import fiap.stock.portal.common.exception.InvalidSuppliedDataException;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.rabbitmq.client.AMQP;
+import com.rabbitmq.client.BuiltinExchangeType;
+import com.rabbitmq.client.Channel;
 import fiap.stock.portal.order.domain.Order;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
-import java.util.Objects;
+import javax.annotation.PostConstruct;
+import java.io.IOException;
+import java.util.HashMap;
+
+import static java.nio.charset.StandardCharsets.UTF_8;
 
 @Service
 class StockOrderServiceImpl implements StockOrderService {
 
-    private final String stockMgntBaseDomain;
+    private static final Logger LOGGER = LoggerFactory.getLogger(StockOrderServiceImpl.class);
+    private static final String EXCHANGE_REQUESTED_ORDER = "exchange.requested.order";
 
-    StockOrderServiceImpl(@Value("${stock.mgnt.host}") String stockMgntBaseDomain) {
-        this.stockMgntBaseDomain = stockMgntBaseDomain;
+    private final Channel rabbitMqChannel;
+    private final ObjectMapper objectMapper;
+
+    StockOrderServiceImpl(Channel rabbitMqChannel, ObjectMapper objectMapper) {
+        this.rabbitMqChannel = rabbitMqChannel;
+        this.objectMapper = objectMapper;
+    }
+
+    @PostConstruct
+    public void postConstruct() throws IOException {
+        rabbitMqChannel.exchangeDeclare(EXCHANGE_REQUESTED_ORDER, BuiltinExchangeType.FANOUT);
     }
 
     @Override
-    public void postOrderToStock(String loginId, Order order) throws InvalidSuppliedDataException {
+    public void postOrderToStock(String loginId, Order order) {
         StockOrder stockOrder = new StockOrder(
                 order.getCode(),
                 order.getProducts()
         );
 
-        RestTemplate restTemplate = new RestTemplate();
+        try {
+            String stockOrderAsString = objectMapper.writeValueAsString(stockOrder);
 
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
+            LOGGER.debug("Serialized stock order json content [{}]", stockOrderAsString);
 
-        HttpEntity<StockOrder> httpEntity = new HttpEntity<>(stockOrder, headers);
+            AMQP.BasicProperties props = new AMQP.BasicProperties
+                    .Builder()
+                    .contentType(MediaType.APPLICATION_JSON_VALUE)
+                    .contentEncoding(UTF_8.name())
+                    .headers(
+                            new HashMap<String, Object>(){{
+                                put("loginId", loginId);
+                            }}
+                    )
+                    .build();
 
-        String url = this.stockMgntBaseDomain + "stock/users/" + loginId + "/orders";
-        String response = restTemplate.postForObject(
-                url,
-                httpEntity,
-                String.class
-        );
+            rabbitMqChannel.basicPublish(EXCHANGE_REQUESTED_ORDER, "", props, stockOrderAsString.getBytes(UTF_8));
 
-        if (Objects.isNull(response)) {
-            throw new InvalidSuppliedDataException(
-                    "No valid response resulted from posting order to; " + url
-            );
+            LOGGER.debug("Stock order published to message broker successfully; [{}]", stockOrderAsString);
+        } catch (JsonProcessingException exception) {
+            LOGGER.error("Exception raised while serializing stock order instance;", exception);
+        } catch (IOException exception) {
+            LOGGER.error("Exception raised while publishing stock order to message broker;", exception);
         }
     }
 

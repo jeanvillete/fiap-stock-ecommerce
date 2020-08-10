@@ -95,7 +95,7 @@ public class ProductUseCase {
         productService.save(product);
 
         SummarizedProduct summarizedProduct = summarizedProductService.summarizeProduct(product);
-        summarizedProductService.postToStockPortal(loginId, summarizedProduct);
+        summarizedProductService.postSummarizedProductToStockPortal(loginId, summarizedProduct);
 
         return new ProductPayload(
                 product.getEntryTime(),

@@ -20,6 +20,8 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
+
+        <rabbit-amqp-client.version>5.9.0</rabbit-amqp-client.version>
     </properties>
 
     <dependencies>
@@ -34,6 +36,12 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-redis</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.rabbitmq</groupId>
+            <artifactId>amqp-client</artifactId>
+            <version>${rabbit-amqp-client.version}</version>
         </dependency>
 
         <dependency>
