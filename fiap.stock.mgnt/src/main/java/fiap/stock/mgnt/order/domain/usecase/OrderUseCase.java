@@ -121,17 +121,20 @@ public class OrderUseCase {
 
         List<Product> productList = order.getProducts()
                 .stream()
-                .map(OrderProduct::getProduct)
+                .map(orderProduct -> new Product(orderProduct.getProduct().getCode(), orderProduct.getQuantity()))
                 .collect(Collectors.toList());
         productService.validProductList(productList);
 
         order.setStatus(OrderStatus.APPROVED);
         orderService.save(order);
 
-        productList.forEach(product -> {
-            SummarizedProduct summarizedProduct = summarizedProductService.summarizeProduct(product);
-            summarizedProductService.postSummarizedProductToStockPortal(loginId, summarizedProduct);
-        });
+        order.getProducts()
+                .stream()
+                .map(OrderProduct::getProduct)
+                .forEach(product -> {
+                    SummarizedProduct summarizedProduct = summarizedProductService.summarizeProduct(product);
+                    summarizedProductService.postSummarizedProductToStockPortal(loginId, summarizedProduct);
+                });
 
         portalOrderService.postUpdatedOrderStatus(loginId, order);
 
