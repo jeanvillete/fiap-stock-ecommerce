@@ -23,6 +23,17 @@ services:
     environment:
       - "MYSQL_ROOT_PASSWORD=fiap-persistencepwd"
 
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    network_mode: "host"
+    ports:
+      - 15672:15672
+      - 5672:5672
+    environment:
+      - "RABBITMQ_DEFAULT_USER=rabbit-usr"
+      - "RABBITMQ_DEFAULT_PASS=rabbit-pwd"
+
   fiap_sample_login:
     image: jvillete/fiap.sample.login
     container_name: 'fiap.sample.login'
@@ -43,6 +54,7 @@ services:
     restart: on-failure
     depends_on:
       - mysql
+      - rabbitmq
 
   fiap_stock_portal:
     image: jvillete/fiap.stock.portal
@@ -54,6 +66,7 @@ services:
     depends_on:
       - redis
       - mongodb
+      - rabbitmq
 
   fiap_stock_portal_front:
     image: jvillete/fiap.stock.portal.front
