@@ -129,12 +129,8 @@ public class OrderUseCase {
         orderService.save(order);
 
         productList.forEach(product -> {
-            try {
-                SummarizedProduct summarizedProduct = summarizedProductService.summarizeProduct(product);
-                summarizedProductService.postSummarizedProductToStockPortal(loginId, summarizedProduct);
-            } catch (InvalidSuppliedDataException exception) {
-                throw new RuntimeException(exception);
-            }
+            SummarizedProduct summarizedProduct = summarizedProductService.summarizeProduct(product);
+            summarizedProductService.postSummarizedProductToStockPortal(loginId, summarizedProduct);
         });
 
         portalOrderService.postUpdatedOrderStatus(loginId, order);
