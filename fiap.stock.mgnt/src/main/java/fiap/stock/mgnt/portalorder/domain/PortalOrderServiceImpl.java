@@ -40,9 +40,11 @@ class PortalOrderServiceImpl implements PortalOrderService {
     @Override
     public void postUpdatedOrderStatus(String loginId, Order order) {
         try {
-            String orderAsString = objectMapper.writeValueAsString(order);
+            PortalOrder portalOrder = new PortalOrder(order.getStatus());
 
-            LOGGER.debug("Serialized order json content [{}]", order);
+            String portalOrderAsString = objectMapper.writeValueAsString(portalOrder);
+
+            LOGGER.debug("Serialized portal order json content [{}]", portalOrderAsString);
 
             AMQP.BasicProperties props = new AMQP.BasicProperties
                     .Builder()
@@ -56,13 +58,13 @@ class PortalOrderServiceImpl implements PortalOrderService {
                     )
                     .build();
 
-            rabbitMqChannel.basicPublish(EXCHANGE_UPDATED_ORDER, NAMELESS_ROUTING_KEY, props, orderAsString.getBytes(UTF_8));
+            rabbitMqChannel.basicPublish(EXCHANGE_UPDATED_ORDER, NAMELESS_ROUTING_KEY, props, portalOrderAsString.getBytes(UTF_8));
 
-            LOGGER.debug("Order published to message broker successfully; [{}]", orderAsString);
+            LOGGER.debug("Portal order published to message broker successfully; [{}]", portalOrderAsString);
         } catch (JsonProcessingException exception) {
-            LOGGER.error("Exception raised while serializing order instance;", exception);
+            LOGGER.error("Exception raised while serializing portal order instance;", exception);
         } catch (IOException exception) {
-            LOGGER.error("Exception raised while publishing order to message broker;", exception);
+            LOGGER.error("Exception raised while publishing portal order to message broker;", exception);
         }
     }
 
