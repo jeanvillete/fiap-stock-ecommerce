@@ -5,7 +5,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rabbitmq.client.AMQP;
 import com.rabbitmq.client.BuiltinExchangeType;
 import com.rabbitmq.client.Channel;
-import fiap.stock.mgnt.common.exception.InvalidSuppliedDataException;
 import fiap.stock.mgnt.product.domain.Product;
 import fiap.stock.mgnt.product.domain.ProductService;
 import org.slf4j.Logger;
@@ -62,7 +61,7 @@ class SummarizedProductServiceImpl implements SummarizedProductService {
     }
 
     @Override
-    public void postSummarizedProductToStockPortal(String loginId, SummarizedProduct summarizedProduct) throws InvalidSuppliedDataException {
+    public void postSummarizedProductToStockPortal(String loginId, SummarizedProduct summarizedProduct) {
         try {
             String summarizedProductAsString = objectMapper.writeValueAsString(summarizedProduct);
 

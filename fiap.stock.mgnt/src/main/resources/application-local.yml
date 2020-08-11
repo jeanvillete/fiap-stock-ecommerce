@@ -5,10 +5,6 @@ spring:
 logging:
   config: classpath:logback-local.xml
 
-stock:
-  portal:
-    host: http://localhost:8383/
-
 rabbitmq:
   host: localhost
   port: 5672

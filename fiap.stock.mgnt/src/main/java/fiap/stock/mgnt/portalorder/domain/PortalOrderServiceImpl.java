@@ -1,35 +1,69 @@
 package fiap.stock.mgnt.portalorder.domain;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.rabbitmq.client.AMQP;
+import com.rabbitmq.client.BuiltinExchangeType;
+import com.rabbitmq.client.Channel;
 import fiap.stock.mgnt.order.domain.Order;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
+
+import javax.annotation.PostConstruct;
+import java.io.IOException;
+import java.util.HashMap;
+
+import static java.nio.charset.StandardCharsets.UTF_8;
 
 @Service
 class PortalOrderServiceImpl implements PortalOrderService {
 
-    private final String stockPortalBaseDomain;
+    private static final Logger LOGGER = LoggerFactory.getLogger(PortalOrderServiceImpl.class);
+    private static final String EXCHANGE_UPDATED_ORDER = "exchange.updated.order";
+    private static final String NAMELESS_ROUTING_KEY = "";
 
-    PortalOrderServiceImpl(@Value("${stock.portal.host}") String stockPortalBaseDomain) {
-        this.stockPortalBaseDomain = stockPortalBaseDomain;
+    private final Channel rabbitMqChannel;
+    private final ObjectMapper objectMapper;
+
+    PortalOrderServiceImpl(Channel rabbitMqChannel, ObjectMapper objectMapper) {
+        this.rabbitMqChannel = rabbitMqChannel;
+        this.objectMapper = objectMapper;
+    }
+
+    @PostConstruct
+    public void postConstruct() throws IOException {
+        rabbitMqChannel.exchangeDeclare(EXCHANGE_UPDATED_ORDER, BuiltinExchangeType.FANOUT);
     }
 
     @Override
     public void postUpdatedOrderStatus(String loginId, Order order) {
-        PortalOrder portalOrder = new PortalOrder(order.getStatus());
+        try {
+            String orderAsString = objectMapper.writeValueAsString(order);
 
-        RestTemplate restTemplate = new RestTemplate();
+            LOGGER.debug("Serialized order json content [{}]", order);
 
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
+            AMQP.BasicProperties props = new AMQP.BasicProperties
+                    .Builder()
+                    .contentType(MediaType.APPLICATION_JSON_VALUE)
+                    .contentEncoding(UTF_8.name())
+                    .headers(
+                            new HashMap<String, Object>(){{
+                                put("loginId", loginId);
+                                put("orderCode", order.getCode());
+                            }}
+                    )
+                    .build();
 
-        HttpEntity<PortalOrder> httpEntity = new HttpEntity<>(portalOrder, headers);
+            rabbitMqChannel.basicPublish(EXCHANGE_UPDATED_ORDER, NAMELESS_ROUTING_KEY, props, orderAsString.getBytes(UTF_8));
 
-        String url = this.stockPortalBaseDomain + "portal/users/" + loginId + "/orders/" + order.getCode();
-        restTemplate.put(url, httpEntity);
+            LOGGER.debug("Order published to message broker successfully; [{}]", orderAsString);
+        } catch (JsonProcessingException exception) {
+            LOGGER.error("Exception raised while serializing order instance;", exception);
+        } catch (IOException exception) {
+            LOGGER.error("Exception raised while publishing order to message broker;", exception);
+        }
     }
 
 }
