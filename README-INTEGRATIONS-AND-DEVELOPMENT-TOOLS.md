@@ -48,14 +48,14 @@ A comunicação agora tem o ``` fiap.stock.mgnt.summarizedproduct.domain.Summari
 No portal, o cliente consegue interagir com a lista de produtos registrados, selecionar uma série destes produtos, e 
  solicitar um pedido destes produtos, neste passo, o cliente através do componente
  ``` fiap.stock.portal.stockorder.domain.StockOrderServiceImpl ``` montava o payload representando o pedido e fazia uma
- requisição POST através de um Spring Rest Template para o estoquista, que mantinha o controller 
- ``` fiap.stock.mgnt.order.application.OrderController ``` recepcionando estes pedidos e persistir em base local, 
+ requisição POST através de um Spring Rest Template para o ***fiap.stock.mgnt***, que mantinha o controller 
+ ``` fiap.stock.mgnt.order.application.OrderController ``` recepcionando estes pedidos e persistindo em base local, 
  para futura conferência do estoquista, que deveria então aprovar ou rejeitar o(s) pedido(s).  
-Uma vez o estoquista na tela de pedidos aguardando resposta no ***fiap.stock.mgnt***, o estoquista pode selecionar uma 
- das opções Aprovar ou Rejeitar pedido, que por sua vez deveria fazer uma requisição através do cliente 
- ``` fiap.stock.mgnt.portalorder.domain.PortalOrderServiceImpl ``` afim de atualizar o status do pedido no portal, afim
- de atualizar o cliente do ocorrido, e no portal, esta requisição era exposta através do controller
- ``` fiap.stock.portal.order.application.OrderController ```.
+Uma vez o estoquista na tela de pedidos (pedidos com status aguardando resposta) no ***fiap.stock.mgnt***, o estoquista
+ pode selecionar uma das opções Aprovar ou Rejeitar pedido, que por sua vez deveria fazer uma requisição através do 
+ cliente ``` fiap.stock.mgnt.portalorder.domain.PortalOrderServiceImpl ``` afim de atualizar o status do pedido no 
+ ***fiap.stock.portal*** e permitir o cliente observar o ocorrido, e no portal, esta requisição era exposta através do
+  controller ``` fiap.stock.portal.order.application.OrderController ```.
 
 ***Depois;***  
 Para os pedidos efetuados no portal, estes continuam sendo montados em um payload gerido no artefato
