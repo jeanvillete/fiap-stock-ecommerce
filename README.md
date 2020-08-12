@@ -55,20 +55,20 @@ Este módulo mantém as informações num modelo não normalizado, mantido no ba
 # 2 - execução com docker/docker-compose
 
 Após o clone local (e/ou toda alteração em tempo de desenvolvimento), rode o script build que monta tanto os componentes
-de backend quanto frontend e gera as suas imagens docker localmente.
+de backend quanto frontend e gera as suas imagens docker LOCALMENTE.
  
 ``` $ ./docker-build.sh ```
 
-#### subindo componentes backend separadamente localmente, com imagens docker locais
+#### subindo separadamente os componentes backend com imagens docker LOCAIS
 ``` $ docker-compose -f docker-compose-local-backend-only.yml up ```
 
-#### subindo componentes frontend separadamente localmente, com imagens docker locais
+#### subindo separadamente os componentes frontend com imagens docker LOCAIS
 ``` $ docker-compose -f docker-compose-local-frontend-only.yml up ```
 
-#### subindo componentes backend junto com frontend localmente, com imagens docker locais
+#### subindo componentes backend junto com frontend com imagens docker LOCAIS
 ``` $ docker-compose -f docker-compose-local.yml up ```
 
-#### subindo componentes backend junto com frontend, com imagem docker publica
+#### subindo componentes backend junto com frontend com imagens docker PÚBLICAS
 ``` $ docker-compose up ```
 
 ---
