@@ -38,8 +38,13 @@ services:
     image: fiap.sample.login
     container_name: 'fiap.sample.login'
     network_mode: "host"
-    ports:
-      - 8181:8181
+    environment:
+      - "MONGO_DB_HOST=localhost"
+      - "MONGO_DB_PORT=27017"
+      - "MONGO_DB_DATABASE=fiapSampleLogin"
+      - "REDIS_HOST=localhost"
+      - "REDIS_PORT=6379"
+      - "REDIS_PASSWORD="
     restart: on-failure
     depends_on:
       - redis

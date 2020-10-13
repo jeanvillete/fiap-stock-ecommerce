@@ -2,9 +2,12 @@ spring:
   data:
     mongodb:
       host: localhost
+      port: 27017
+      database: fiapSampleLogin
 
 logging:
   config: classpath:logback-local.xml
 
 redis:
   host: localhost
+  port: 6379
