@@ -8,7 +8,6 @@ variable "aws_region" {
 # [+] Amazon/Virtual Machine Image
 variable "aws_amis" {
     default = {
-        # us-east-1 = "ami-07ebfd5b3428b6f4d"
         us-east-1 = "ami-0dba2cb6798deb6d8"
     }
 }
@@ -25,7 +24,7 @@ variable "cluster_no_of_node" {
     type = map
     default = {
         manager = 1
-        worker = 1
+        worker = 4
     }
 }
 # [-]
