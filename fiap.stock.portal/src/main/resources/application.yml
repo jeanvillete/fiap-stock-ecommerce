@@ -4,9 +4,9 @@ server:
 spring:
   data:
     mongodb:
-      host: 0.0.0.0
-      port: 27017
-      database: fiapStockPortal
+      host: ${MONGO_DB_HOST}
+      port: ${MONGO_DB_PORT}
+      database: ${MONGO_DB_DATABASE}
   main:
     banner-mode: console
 
@@ -14,13 +14,13 @@ logging:
   config: classpath:logback.xml
 
 redis:
-  host: 0.0.0.0
-  port: 6379
-  password:
+  host: ${REDIS_HOST}
+  port: ${REDIS_PORT}
+  password: ${REDIS_PASSWORD}
 
 rabbitmq:
-  host: 0.0.0.0
-  port: 5672
-  username: rabbit-usr
-  password: rabbit-pwd
+  host: ${RABBIT_MQ_HOST}
+  port: ${RABBIT_MQ_PORT}
+  username: ${RABBIT_MQ_USER_NAME}
+  password: ${RABBIT_MQ_PASSWORD}
   virtual-host: '/'
