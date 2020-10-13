@@ -1,0 +1,154 @@
+version: '3'
+
+networks:
+  fiap_stock_net_overlay:
+    external: true
+
+services:
+  redis:
+    image: redis
+    container_name: redis
+    networks:
+      - fiap_stock_net_overlay
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+        max_attempts: 3
+
+  mongodb:
+    image: mongo
+    container_name: mongodb
+    networks:
+      - fiap_stock_net_overlay
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+        max_attempts: 3
+
+  mysql:
+    image: mysql
+    container_name: mysql
+    networks:
+      - fiap_stock_net_overlay
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+        max_attempts: 3
+    environment:
+      - "MYSQL_ROOT_PASSWORD=fiap-persistencepwd"
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    networks:
+      - fiap_stock_net_overlay
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+        max_attempts: 3
+    environment:
+      - "RABBITMQ_DEFAULT_USER=rabbit-usr"
+      - "RABBITMQ_DEFAULT_PASS=rabbit-pwd"
+
+  fiap_sample_login:
+    image: jvillete/fiap.sample.login
+    container_name: 'fiap.sample.login'
+    networks:
+      - fiap_stock_net_overlay
+    environment:
+      - "MONGO_DB_HOST=mongodb"
+      - "MONGO_DB_PORT=27017"
+      - "MONGO_DB_DATABASE=fiapSampleLogin"
+      - "REDIS_HOST=redis"
+      - "REDIS_PORT=6379"
+      - "REDIS_PASSWORD="
+    restart: on-failure
+    depends_on:
+      - redis
+      - mongodb
+    deploy:
+      replicas: 2
+      restart_policy:
+        condition: on-failure
+
+  fiap_stock_mgnt:
+    image: jvillete/fiap.stock.mgnt
+    container_name: 'fiap.stock.mgnt'
+    networks:
+      - fiap_stock_net_overlay
+    environment:
+      - "MYSQL_JDBC_URL=jdbc:mysql://mysql:3306/stock?createDatabaseIfNotExist=true"
+      - "MYSQL_USER_NAME=root"
+      - "MYSQL_PASSWORD=fiap-persistencepwd"
+      - "RABBIT_MQ_HOST=rabbitmq"
+      - "RABBIT_MQ_PORT=5672"
+      - "RABBIT_MQ_USER_NAME=rabbit-usr"
+      - "RABBIT_MQ_PASSWORD=rabbit-pwd"
+    restart: on-failure
+    depends_on:
+      - mysql
+      - rabbitmq
+    deploy:
+      replicas: 2
+      restart_policy:
+        condition: on-failure
+
+  fiap_stock_portal:
+    image: jvillete/fiap.stock.portal
+    container_name: 'fiap.stock.portal'
+    networks:
+      - fiap_stock_net_overlay
+    environment:
+      - "MONGO_DB_HOST=mongodb"
+      - "MONGO_DB_PORT=27017"
+      - "MONGO_DB_DATABASE=fiapStockPortal"
+      - "REDIS_HOST=redis"
+      - "REDIS_PORT=6379"
+      - "REDIS_PASSWORD="
+      - "RABBIT_MQ_HOST=rabbitmq"
+      - "RABBIT_MQ_PORT=5672"
+      - "RABBIT_MQ_USER_NAME=rabbit-usr"
+      - "RABBIT_MQ_PASSWORD=rabbit-pwd"
+    restart: on-failure
+    depends_on:
+      - redis
+      - mongodb
+      - rabbitmq
+    deploy:
+      replicas: 2
+      restart_policy:
+        condition: on-failure
+
+  fiap_stock_portal_front:
+    image: jvillete/fiap.stock.portal.front
+    container_name: 'fiap.stock.portal.front'
+    networks:
+      - fiap_stock_net_overlay
+    environment:
+      - "FIAP_SAMPLE_LOGIN_BACKEND_HOST=fiap_sample_login"
+      - "FIAP_SAMPLE_LOGIN_BACKEND_PORT=8181"
+      - "FIAP_STOCK_PORTAL_BACKEND_HOST=fiap_stock_portal"
+      - "FIAP_STOCK_PORTAL_BACKEND_PORT=8383"
+    deploy:
+      replicas: 2
+      restart_policy:
+        condition: on-failure
+
+  fiap_stock_mgnt_front:
+    image: jvillete/fiap.stock.mgnt.front
+    container_name: 'fiap.stock.mgnt.front'
+    networks:
+      - fiap_stock_net_overlay
+    environment:
+      - "FIAP_SAMPLE_LOGIN_BACKEND_HOST=fiap_sample_login"
+      - "FIAP_SAMPLE_LOGIN_BACKEND_PORT=8181"
+      - "FIAP_STOCK_MGNT_BACKEND_HOST=fiap_stock_mgnt"
+      - "FIAP_STOCK_MGNT_BACKEND_PORT=8282"
+    deploy:
+      replicas: 2
+      restart_policy:
+        condition: on-failure

@@ -17,4 +17,4 @@
             $ docker swarm join --token TOKEN-OBTIDO-DO-LIDER XXX.XXX.XXX.XXX:XXXX
 
 # 5 - retornando a sessão do Nó Lider, crie a rede *overlay*
-            $ docker network create -d overlay net
+            $ docker network create -d overlay fiap_stock_net_overlay
