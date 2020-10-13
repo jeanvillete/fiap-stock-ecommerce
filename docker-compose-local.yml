@@ -54,8 +54,14 @@ services:
     image: fiap.stock.mgnt
     container_name: 'fiap.stock.mgnt'
     network_mode: "host"
-    ports:
-      - 8282:8282
+    environment:
+      - "MYSQL_JDBC_URL=jdbc:mysql://localhost:3306/stock?createDatabaseIfNotExist=true"
+      - "MYSQL_USER_NAME=root"
+      - "MYSQL_PASSWORD=fiap-persistencepwd"
+      - "RABBIT_MQ_HOST=localhost"
+      - "RABBIT_MQ_PORT=5672"
+      - "RABBIT_MQ_USER_NAME=rabbit-usr"
+      - "RABBIT_MQ_PASSWORD=rabbit-pwd"
     restart: on-failure
     depends_on:
       - mysql

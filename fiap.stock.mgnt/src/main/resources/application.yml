@@ -3,9 +3,9 @@ server:
 
 spring:
   datasource:
-    url: jdbc:mysql://0.0.0.0:3306/stock?createDatabaseIfNotExist=true
-    username: root
-    password: fiap-persistencepwd
+    url: ${MYSQL_JDBC_URL}
+    username: ${MYSQL_USER_NAME}
+    password: ${MYSQL_PASSWORD}
     driver-class-name: com.mysql.jdbc.Driver
     platform: org.hibernate.dialect.MySQL5InnoDBDialect
     initialization-mode: always
@@ -18,8 +18,8 @@ logging:
   config: classpath:logback.xml
 
 rabbitmq:
-  host: 0.0.0.0
-  port: 5672
-  username: rabbit-usr
-  password: rabbit-pwd
+  host: ${RABBIT_MQ_HOST}
+  port: ${RABBIT_MQ_PORT}
+  username: ${RABBIT_MQ_USER_NAME}
+  password: ${RABBIT_MQ_PASSWORD}
   virtual-host: '/'

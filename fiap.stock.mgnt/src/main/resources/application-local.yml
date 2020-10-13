@@ -1,6 +1,8 @@
 spring:
   datasource:
     url: jdbc:mysql://localhost:3306/stock?createDatabaseIfNotExist=true
+    username: root
+    password: fiap-persistencepwd
 
 logging:
   config: classpath:logback-local.xml
