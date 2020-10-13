@@ -4,6 +4,11 @@ services:
     image: fiap.stock.portal.front
     container_name: 'fiap.stock.portal.front'
     network_mode: "host"
+    environment:
+      - "FIAP_SAMPLE_LOGIN_BACKEND_HOST=localhost"
+      - "FIAP_SAMPLE_LOGIN_BACKEND_PORT=8181"
+      - "FIAP_STOCK_PORTAL_BACKEND_HOST=localhost"
+      - "FIAP_STOCK_PORTAL_BACKEND_PORT=8383"
 
   fiap_stock_mgnt_front:
     image: fiap.stock.mgnt.front
