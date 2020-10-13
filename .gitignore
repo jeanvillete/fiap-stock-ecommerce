@@ -3,3 +3,6 @@ target/
 .idea/
 *.swp
 *.tmp
+.terraform/
+terraform.tfstate
+terraform.tfstate.backup
