@@ -72,12 +72,18 @@ services:
     image: jvillete/fiap.stock.portal.front
     container_name: 'fiap.stock.portal.front'
     network_mode: "host"
-    ports:
-      - 3232:3232
+    environment:
+      - "FIAP_SAMPLE_LOGIN_BACKEND_HOST=localhost"
+      - "FIAP_SAMPLE_LOGIN_BACKEND_PORT=8181"
+      - "FIAP_STOCK_PORTAL_BACKEND_HOST=localhost"
+      - "FIAP_STOCK_PORTAL_BACKEND_PORT=8383"
 
   fiap_stock_mgnt_front:
     image: jvillete/fiap.stock.mgnt.front
     container_name: 'fiap.stock.mgnt.front'
     network_mode: "host"
-    ports:
-      - 3131:3131
+    environment:
+      - "FIAP_SAMPLE_LOGIN_BACKEND_HOST=localhost"
+      - "FIAP_SAMPLE_LOGIN_BACKEND_PORT=8181"
+      - "FIAP_STOCK_MGNT_BACKEND_HOST=localhost"
+      - "FIAP_STOCK_MGNT_BACKEND_PORT=8282"
