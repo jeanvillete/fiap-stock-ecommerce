@@ -5,6 +5,14 @@
 
 npm i
 npm run build
+
+export FIAP_SAMPLE_LOGIN_BACKEND_HOST='localhost'
+export FIAP_SAMPLE_LOGIN_BACKEND_PORT=8181
+export FIAP_STOCK_MGNT_BACKEND_HOST='localhost'
+export FIAP_STOCK_MGNT_BACKEND_PORT=8282
+
+envsubst '${FIAP_SAMPLE_LOGIN_BACKEND_HOST} ${FIAP_SAMPLE_LOGIN_BACKEND_PORT} ${FIAP_STOCK_MGNT_BACKEND_HOST} ${FIAP_STOCK_MGNT_BACKEND_PORT}' < default.conf.template > default.conf
+
 docker run \
     --name fiap.stock.mgnt.front-LOCAL \
     --network=host \

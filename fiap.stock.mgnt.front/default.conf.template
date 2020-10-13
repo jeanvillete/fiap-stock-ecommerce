@@ -12,11 +12,11 @@ server {
 
   location /api/login {
     rewrite /api/(.*) /$1 break;
-    proxy_pass http://0.0.0.0:8181;
+    proxy_pass http://${FIAP_SAMPLE_LOGIN_BACKEND_HOST}:${FIAP_SAMPLE_LOGIN_BACKEND_PORT};
   }
 
   location /api/stock {
     rewrite /api/(.*) /$1 break;
-    proxy_pass http://0.0.0.0:8282;
+    proxy_pass http://${FIAP_STOCK_MGNT_BACKEND_HOST}:${FIAP_STOCK_MGNT_BACKEND_PORT};
   }
 }
