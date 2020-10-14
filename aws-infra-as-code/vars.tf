@@ -15,7 +15,7 @@ variable "aws_amis" {
 
 # [+] EC2 INSTANCE TYPE
 variable "instance_type" {
-    default = "t2.micro"
+    default = "t2.medium"
 }
 # [-]
 

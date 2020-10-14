@@ -14,6 +14,9 @@ services:
       restart_policy:
         condition: on-failure
         max_attempts: 3
+      placement:
+        constraints:
+          - node.role == worker
 
   mongodb:
     image: mongo
@@ -24,6 +27,9 @@ services:
       restart_policy:
         condition: on-failure
         max_attempts: 3
+      placement:
+        constraints:
+          - node.role == worker
 
   mysql:
     image: mysql
@@ -34,6 +40,9 @@ services:
       restart_policy:
         condition: on-failure
         max_attempts: 3
+      placement:
+        constraints:
+          - node.role == worker
     environment:
       MYSQL_ROOT_PASSWORD: fiap-persistencepwd
 
@@ -46,6 +55,9 @@ services:
       restart_policy:
         condition: on-failure
         max_attempts: 3
+      placement:
+        constraints:
+          - node.role == worker
     environment:
       RABBITMQ_DEFAULT_USER: rabbit-usr
       RABBITMQ_DEFAULT_PASS: rabbit-pwd
@@ -69,6 +81,9 @@ services:
       replicas: 2
       restart_policy:
         condition: on-failure
+      placement:
+        constraints:
+          - node.role == worker
 
   fiapstockmgnt:
     image: jvillete/fiap.stock.mgnt
@@ -90,6 +105,9 @@ services:
       replicas: 2
       restart_policy:
         condition: on-failure
+      placement:
+        constraints:
+          - node.role == worker
 
   fiapstockportal:
     image: jvillete/fiap.stock.portal
@@ -115,6 +133,9 @@ services:
       replicas: 2
       restart_policy:
         condition: on-failure
+      placement:
+        constraints:
+          - node.role == worker
 
   fiapstockportalfront:
     image: jvillete/fiap.stock.portal.front
@@ -127,13 +148,13 @@ services:
       FIAP_STOCK_PORTAL_BACKEND_PORT: 8383
     ports:
       - 3131:3131
-    depends_on:
-      - fiapsamplelogin
-      - fiapstockportal
     deploy:
       replicas: 2
       restart_policy:
         condition: on-failure
+      placement:
+        constraints:
+          - node.role == worker
 
   fiapstockmgntfront:
     image: jvillete/fiap.stock.mgnt.front
@@ -146,10 +167,10 @@ services:
       FIAP_STOCK_MGNT_BACKEND_PORT: 8282
     ports:
       - 3232:3232
-    depends_on:
-      - fiapsamplelogin
-      - fiapstockmgnt
     deploy:
       replicas: 2
       restart_policy:
         condition: on-failure
+      placement:
+        constraints:
+          - node.role == worker
