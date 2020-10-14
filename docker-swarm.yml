@@ -50,7 +50,7 @@ services:
       RABBITMQ_DEFAULT_USER: rabbit-usr
       RABBITMQ_DEFAULT_PASS: rabbit-pwd
 
-  fiap_sample_login:
+  fiap.sample.login:
     image: jvillete/fiap.sample.login
     networks:
       - fiap_stock_net_overlay
@@ -70,7 +70,7 @@ services:
       restart_policy:
         condition: on-failure
 
-  fiap_stock_mgnt:
+  fiap.stock.mgnt:
     image: jvillete/fiap.stock.mgnt
     networks:
       - fiap_stock_net_overlay
@@ -91,7 +91,7 @@ services:
       restart_policy:
         condition: on-failure
 
-  fiap_stock_portal:
+  fiap.stock.portal:
     image: jvillete/fiap.stock.portal
     networks:
       - fiap_stock_net_overlay
@@ -116,39 +116,39 @@ services:
       restart_policy:
         condition: on-failure
 
-  fiap_stock_portal_front:
+  fiap.stock.portal.front:
     image: jvillete/fiap.stock.portal.front
     networks:
       - fiap_stock_net_overlay
     environment:
-      FIAP_SAMPLE_LOGIN_BACKEND_HOST: fiap_sample_login
+      FIAP_SAMPLE_LOGIN_BACKEND_HOST: fiap.sample.login
       FIAP_SAMPLE_LOGIN_BACKEND_PORT: 8181
-      FIAP_STOCK_PORTAL_BACKEND_HOST: fiap_stock_portal
+      FIAP_STOCK_PORTAL_BACKEND_HOST: fiap.stock.portal
       FIAP_STOCK_PORTAL_BACKEND_PORT: 8383
     ports:
       - 3131:3131
     depends_on:
-      - fiap_sample_login
-      - fiap_stock_portal
+      - fiap.sample.login
+      - fiap.stock.portal
     deploy:
       replicas: 2
       restart_policy:
         condition: on-failure
 
-  fiap_stock_mgnt_front:
+  fiap.stock.mgnt.front:
     image: jvillete/fiap.stock.mgnt.front
     networks:
       - fiap_stock_net_overlay
     environment:
-      FIAP_SAMPLE_LOGIN_BACKEND_HOST: fiap_sample_login
+      FIAP_SAMPLE_LOGIN_BACKEND_HOST: fiap.sample.login
       FIAP_SAMPLE_LOGIN_BACKEND_PORT: 8181
-      FIAP_STOCK_MGNT_BACKEND_HOST: fiap_stock_mgnt
+      FIAP_STOCK_MGNT_BACKEND_HOST: fiap.stock.mgnt
       FIAP_STOCK_MGNT_BACKEND_PORT: 8282
     ports:
       - 3232:3232
     depends_on:
-      - fiap_sample_login
-      - fiap_stock_mgnt
+      - fiap.sample.login
+      - fiap.stock.mgnt
     deploy:
       replicas: 2
       restart_policy:
