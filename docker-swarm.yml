@@ -127,6 +127,9 @@ services:
       FIAP_STOCK_PORTAL_BACKEND_PORT: 8383
     ports:
       - 3131:3131
+    depends_on:
+      - fiap_sample_login
+      - fiap_stock_portal
     deploy:
       replicas: 2
       restart_policy:
@@ -143,6 +146,9 @@ services:
       FIAP_STOCK_MGNT_BACKEND_PORT: 8282
     ports:
       - 3232:3232
+    depends_on:
+      - fiap_sample_login
+      - fiap_stock_mgnt
     deploy:
       replicas: 2
       restart_policy:
