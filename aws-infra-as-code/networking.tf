@@ -19,7 +19,14 @@ resource "aws_internet_gateway" "fiap_stock_internet_gateway" {
 }
 # [-]
 
-# [+] PUBLIC SUBNET + NACL + ROUTE TABLE + ROUTE TABLE ASSOCIATION
+# [+] ELASTIC IP FOR NAT GATEWAY DESIRED ON PUBLIC SUBNET
+resource "aws_eip" "fiap_stock_elastic_ip_for_nat_gateway_on_public_subnet" {
+    vpc = true
+    depends_on = [ aws_internet_gateway.fiap_stock_internet_gateway ]
+}
+# [-]
+
+# [+] PUBLIC SUBNET + NACL + ROUTE TABLE + ROUTE TABLE ASSOCIATION + NAT GATEWAY
 resource "aws_subnet" "fiap_stock_public_subnet" {
     vpc_id = aws_vpc.fiap_stock_vpc.id
     cidr_block = lookup(var.map_of_cidr_blocks, "public_subnet")
@@ -73,6 +80,11 @@ resource "aws_route_table" "fiap_stock_public_route_table" {
 
 resource "aws_route_table_association" "fiap_stock_public_route_table_association" {
     route_table_id = aws_route_table.fiap_stock_public_route_table.id
+    subnet_id = aws_subnet.fiap_stock_public_subnet.id
+}
+
+resource "aws_nat_gateway" "fiap_stock_nat_gateway_on_public_subnet" {
+    allocation_id = aws_eip.fiap_stock_elastic_ip_for_nat_gateway_on_public_subnet.id
     subnet_id = aws_subnet.fiap_stock_public_subnet.id
 }
 # [-]

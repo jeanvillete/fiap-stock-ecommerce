@@ -28,8 +28,8 @@ resource "aws_instance" "fiap_stock_ec2_workers" {
     ami = lookup( var.aws_amis, var.aws_region )
     instance_type = var.instance_type
 
-    subnet_id = aws_subnet.fiap_stock_public_subnet.id
-    associate_public_ip_address = true
+    subnet_id = aws_subnet.fiap_stock_public_subnet.id # THIS MUST BE CHANGED TO THE ...private_subunet.id ONCE CREATING ENVIRONMENT OUTSIDE AWS EDUCATE
+    associate_public_ip_address = false
     vpc_security_group_ids = [ aws_security_group.fiap_stock_security_group.id ]
 
     root_block_device {
