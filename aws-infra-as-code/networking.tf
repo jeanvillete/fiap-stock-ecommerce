@@ -23,6 +23,10 @@ resource "aws_internet_gateway" "fiap_stock_internet_gateway" {
 resource "aws_eip" "fiap_stock_elastic_ip_for_nat_gateway_on_public_subnet" {
     vpc = true
     depends_on = [ aws_internet_gateway.fiap_stock_internet_gateway ]
+
+    tags = {
+        Name = "Fiap Stock Elastic IP for NAT Gateway on Public Subnet"
+    }
 }
 # [-]
 
